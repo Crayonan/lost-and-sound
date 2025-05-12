@@ -1,0 +1,285 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "PPEditorialNew-UltralightItalic";
+  src: url('public/fonts/lostsoundfont.woff2') format("truetype");
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+@layer base {
+  body {
+    color: rgb(var(--foreground-rgb));
+    background: rgb(var(--background-start-rgb));
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "PPEditorialNew-UltralightItalic", sans-serif;
+    font-weight: 200;
+    font-style: italic;
+    letter-spacing: -0.025em;
+  }
+
+  p {
+    font-family: var(--font-inter);
+    font-weight: 300;
+  }
+}
+
+/* Festival-specific styles */
+.bg-neon-green {
+  background-color: #00ff66;
+}
+
+.text-neon-green {
+  color: #00ff66;
+}
+
+.border-neon-green {
+  border-color: #00ff66;
+}
+
+.stage-card {
+  @apply border border-purple-900/30 rounded-lg bg-black/50 backdrop-blur-sm p-4 transition-all duration-300;
+}
+
+.stage-card:hover {
+  @apply border-purple-500/50 bg-black/70 transform scale-105;
+}
+
+.artist-name {
+  @apply text-purple-200 hover:text-purple-400 transition-colors;
+}
+
+/* Thank You section specific styles */
+.thank-you-heading {
+  font-family: sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+}
+
+/* Video positioning for better focus on mobile */
+.video-focus {
+  object-position: center;
+}
+
+@media (max-width: 768px) {
+  .video-focus {
+    object-position: 25% center;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-focus {
+    object-position: 30% center;
+  }
+}
+
+/* Disable animations on mobile for better performance */
+@media (max-width: 768px) {
+  .disable-animation {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Ensure content doesn't overflow on small screens */
+@media (max-width: 768px) {
+  .overflow-fix {
+    overflow: visible !important;
+    max-height: none !important;
+  }
+}
+
+/* Add these responsive utility classes to the end of the file */
+
+/* Responsive utilities for vertical text */
+@media (max-width: 640px) {
+  .vertical-festival-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .vertical-festival-text span {
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Mobile menu styles */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 40;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(-100%);
+}
+
+.mobile-menu-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Improved responsive spacing */
+@media (max-width: 375px) {
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .text-6xl {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+}
+
+@media (max-width: 320px) {
+  .container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+  }
+
+  .text-6xl {
+    font-size: 2.25rem;
+  }
+
+  .vertical-festival-text span {
+    font-size: 2.5rem;
+  }
+}
+
+/* Ensure minimum tap target size for mobile */
+@media (max-width: 640px) {
+  button,
+  a {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Adjust spacing for mobile */
+@media (max-width: 640px) {
+  .py-20 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .mb-12 {
+    margin-bottom: 2rem;
+  }
+}
+
+/* Ensure content takes up full space */
+@media (max-width: 768px) {
+  .full-height-mobile {
+    height: auto !important;
+    min-height: 40vh;
+  }
+
+  .content-fit-mobile {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content-fit-mobile > * {
+    flex-shrink: 0;
+  }
+
+  /* Adjust accordion for mobile */
+  .accordion-mobile-fit .accordion-content {
+    max-height: none !important;
+  }
+}
+
+/* Adjust content spacing on mobile */
+@media (max-width: 640px) {
+  .mobile-content-spacing > * + * {
+    margin-top: 0.75rem;
+  }
+
+  .mobile-content-spacing h2 {
+    margin-bottom: 1rem;
+  }
+
+  .mobile-content-spacing .space-y-3 > * + * {
+    margin-top: 0.5rem;
+  }
+}
+
+/* Ensure FAQ section displays properly on mobile */
+@media (max-width: 768px) {
+  .faq-section-mobile {
+    height: auto !important;
+    min-height: unset;
+  }
+
+  .faq-content-mobile {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .faq-image-mobile {
+    height: 30vh !important;
+  }
+
+  .faq-accordion-mobile .accordion-item {
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Adjust content heights for better mobile display */
+@media (max-width: 640px) {
+  .instagram-post-mobile,
+  .news-item-mobile {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .instagram-post-mobile .post-image {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .content-section-mobile {
+    display: flex;
+    flex-direction: column;
+    height: auto !important;
+  }
+
+  .content-section-mobile > div {
+    flex: 0 0 auto;
+  }
+}
