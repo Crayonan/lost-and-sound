@@ -35,7 +35,7 @@ export function ArtistBar({ items }: ArtistBarProps) { // Changed to named expor
       <motion.div className="inline-block" variants={marqueeVariants} animate="animate">
         {allItems.map((item, index) => (
           <React.Fragment key={index}>
-            <span className="inline-block mx-2 xs:mx-3 sm:mx-6 text-black text-xs xs:text-sm sm:text-base font-bold">
+            <span className="inline-block mx-2 xs:mx-3 sm:mx-6 text-black xs:text-sm sm:text-base font-bold">
               {item}
             </span>
             {index !== allItems.length - 1 && (

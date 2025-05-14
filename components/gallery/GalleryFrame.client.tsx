@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FrameItem } from "./FrameItem.client"; // Assuming FrameItem is also client-side
+import { FrameItem } from "./FrameItem"; // Assuming FrameItem is also client-side
 import { useMobile } from "@/hooks/use-mobile";
 
 interface FrameData { // Define a type for the frame items

@@ -4,12 +4,12 @@ import {
   getArtists,
   getGalleryImages,
 } from "@/lib/payloadAPI";
-import { ArtistBar } from "@/components/ArtistBar.client";
-import GalleryFrame from "@/components/GalleryFrame.client";
-import InfoSection from "@/components/InfoSection";
+import { ArtistBar } from "@/components/sections/ArtistBar.client";
+import GalleryFrame from "@/components/gallery/GalleryFrame.client";
+import InfoSection from "@/components/sections/InfoSection";
 import { ppEditorialNewUltralightItalic } from "./fonts";
 // Import types directly from your generated types file
-import type { Page as PageType, Media as PayloadMediaType, Artist, GalleryImage } from "@/payload-types";
+import type { Page as PageType, Media as PayloadMediaType, Artist, GalleryImage } from "@/types/payload-types";
 import Image from "next/image";
 
 // Ensure the getHomePage function is defined in payloadAPI.ts or remove this function if unused.
@@ -80,20 +80,12 @@ export default async function HomePage() {
         )}
         <div className="container mx-auto px-4 h-full flex flex-col justify-end pb-20 relative z-20">
           <h1 className="text-6xl md:text-8xl font-bold text-white tracking-tight leading-none mb-6">
-            {hero?.heading ? (
-              <span className={(typeof window !== 'undefined' && window.innerWidth < 640 && hero.heading.length > 15) || hero.heading.includes('\n') ? "flex flex-col" : "hidden sm:inline"}>
-                {hero.heading.split('\n').map((line, i) => <span key={i}>{line}</span>)}
-              </span>
-            ) : (
-              <>
-                <span className="hidden sm:inline">Festival.Tanzen.Feier</span>
-                <span className="sm:hidden flex flex-col">
+                <span className="hidden lg:inline">Festival.Tanzen.Feier</span>
+                <span className="lg:hidden flex flex-col">
                   <span>Festival</span>
                   <span>Tanzen</span>
                   <span>Feier</span>
                 </span>
-              </>
-            )}
           </h1>
           {hero?.subheading && (
             <p className="text-xl md:text-2xl text-white/80 max-w-2xl">

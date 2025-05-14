@@ -8,14 +8,14 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import Link from "next/link";
 import Image from "next/image";
 import { formatDateTime } from "@/lib/formatDateTime";
-import RichText from "./RichText";
+import RichText from "../common/RichText";
 import type {
   NewsArticle,
   FaqItem,
   Category,
   Media as PayloadMedia,
   // InstagramPost as InstagramPostPayload, // Base type not needed here directly
-} from '@/payload-types';
+} from '@/types/payload-types';
 import type { PopulatedInstagramPost } from "@/lib/payloadAPI"; // Import the populated type
 
 interface InfoSectionTabsProps {
@@ -80,8 +80,8 @@ export function InfoSectionTabs({
           : null;
 
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 content-section-mobile">
-            <div className="relative h-[40vh] sm:h-[50vh] md:h-[80vh] bg-black">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 content-section-mobile">
+            <div className="relative h-[40vh] sm:h-[50vh] lg:h-[80vh] bg-black">
               {isLoadingInstagram ? (
                 <div className="absolute inset-0 flex items-center justify-center bg-black">
                   <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
@@ -200,7 +200,7 @@ export function InfoSectionTabs({
 
         return (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0 content-section-mobile">
-            <div className="relative h-[40vh] sm:h-[50vh] md:h-[80vh]">
+            <div className="relative h-[40vh] sm:h-[50vh] lg:h-[80vh]">
               {coverImage?.url && (
                 <Image
                   src={coverImage.url}
@@ -320,16 +320,16 @@ export function InfoSectionTabs({
 
    return (
     <section className="relative bg-black">
-      <div className="grid grid-cols-1 md:grid-cols-12">
-        <div className="md:col-span-3 bg-[#f2f2f2]/5 border-r border-purple-900/30">
+      <div className="grid grid-cols-1 lg:grid-cols-12">
+        <div className="lg:col-span-3 bg-[#f2f2f2]/5 border-r border-purple-900/30">
           {/* ... Sidebar content ... */}
           <div className="p-4 sm:p-6">
             <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 sm:py-3 rounded-none text-sm sm:text-base">
               SECURE YOUR TICKETS
             </Button>
           </div>
-          <div className="flex flex-row md:flex-col border-t border-purple-900/30">
-            <div className="flex-1 p-4 sm:p-6 md:border-b-0 border-r md:border-r-0 border-purple-900/30">
+          <div className="flex flex-row lg:flex-col border-t border-purple-900/30">
+            <div className="flex-1 p-4 sm:p-6 lg:border-b-0 border-r md:border-r-0 border-purple-900/30">
               <p className="text-right text-xs uppercase tracking-wider text-purple-300/70 mb-1 sm:mb-2">DATE</p>
               <p className="text-right text-sm sm:text-xl font-medium">AUGUST 22 - 24, 2025</p>
             </div>
@@ -338,7 +338,7 @@ export function InfoSectionTabs({
               <p className="text-right text-sm sm:text-xl font-medium">BRODOWIN</p>
             </div>
           </div>
-          <div className="mt-6 md:mt-12 flex md:flex-col overflow-x-auto md:overflow-x-visible pb-2 md:pb-0">
+          <div className="mt-6 md:mt-12 flex lg:flex-col overflow-x-auto md:overflow-x-visible pb-2 md:pb-0">
             <button
               onClick={() => handleSectionChange("instagram")}
               className={`flex-shrink-0 block p-4 md:p-6 text-right text-base md:text-xl font-bold transition-colors whitespace-nowrap ${
@@ -371,7 +371,7 @@ export function InfoSectionTabs({
             </button>
           </div>
         </div>
-        <div className="md:col-span-9 relative">
+        <div className="lg:col-span-9 relative">
           <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-purple-600/30 via-purple-500/20 to-transparent z-10"></div>
           <div className="absolute top-0 right-0 w-24 h-full bg-gradient-to-l from-purple-600/30 via-purple-500/20 to-transparent z-10"></div>
           {renderContent()}

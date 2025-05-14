@@ -9,7 +9,7 @@ import type {
   NewsArticle,
   FaqItem,
   InstagramPost as InstagramPostPayload,// Ensure this type exists or define a basic one
-} from '@/payload-types';
+} from '@/types/payload-types';
 
 const PAYLOAD_API_URL = process.env.NEXT_PUBLIC_PAYLOAD_URL || 'http://localhost:3000';
 

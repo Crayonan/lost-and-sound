@@ -1,7 +1,7 @@
 // components/InfoSection.tsx
 import { getNewsArticles, getFaqItems, getInstagramPostsFromPayload, PopulatedInstagramPost } from "@/lib/payloadAPI"; // Import PopulatedInstagramPost
-import type { NewsArticle, FaqItem } from "@/payload-types";
-import { InfoSectionTabs } from "./InfoSectionTabs.client";
+import type { NewsArticle, FaqItem } from "@/types/payload-types";
+import { InfoSectionTabs } from "./InfoSectionTabs";
 
 export default async function InfoSection() {
   const newsItemsData: NewsArticle[] = await getNewsArticles(4);

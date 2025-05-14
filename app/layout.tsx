@@ -1,9 +1,9 @@
-import "./globals.css";
+import "./css/globals.css";
 import { ppEditorialNewUltralightItalic, inter } from "./fonts";
 import type React from "react";
-import { Header } from "@/components/Header"; // Server Component
-import { Footer } from "@/components/Footer"; // Server Component
-import { ThemeProvider } from "@/components/theme-provider"; // Client Component wrapper
+import Header from "@/components/common/Header" // Server Component
+import Footer from "@/components/common/Footer"; // Server Component
+import { ThemeProvider } from "@/app/theme-provider"; // Client Component wrapper
 
 export const metadata = {
   title: "Lost and Sound",
