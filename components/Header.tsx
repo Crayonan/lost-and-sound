@@ -7,8 +7,6 @@ import { Header as HeaderType, Media as PayloadMediaType } from "@/payload-types
 import Image from "next/image";
 import { MobileNav } from "./MobileNav.client";
 
-
-
 export async function Header() {
   const headerData: HeaderType | null = await getHeaderData();
 

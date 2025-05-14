@@ -1,29 +1,25 @@
+// components/InfoSectionTabs.client.tsx
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button"; // Assuming this is your UI library
+import { Button } from "@/components/ui/button";
 import { ChevronRight, Instagram, HelpCircle, ExternalLink } from "lucide-react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"; // Assuming this
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Link from "next/link";
 import Image from "next/image";
 import { formatDateTime } from "@/lib/formatDateTime";
-import RichText from "./RichText"; // Your RichText renderer
+import RichText from "./RichText";
 import type {
   NewsArticle,
   FaqItem,
   Category,
   Media as PayloadMedia,
-  InstagramPost as InstagramPostPayload,
+  // InstagramPost as InstagramPostPayload, // Base type not needed here directly
 } from '@/payload-types';
-
-// This type describes an InstagramPost where localImage/Video are populated
-interface PopulatedInstagramPostType extends Omit<InstagramPostPayload, 'localImage' | 'localVideo'> {
-  localImage?: PayloadMedia | null;
-  localVideo?: PayloadMedia | null;
-}
+import type { PopulatedInstagramPost } from "@/lib/payloadAPI"; // Import the populated type
 
 interface InfoSectionTabsProps {
-  initialInstagramPosts: PopulatedInstagramPostType[];
+  initialInstagramPosts: PopulatedInstagramPost[]; // Use the populated type from payloadAPI
   initialNewsItems: NewsArticle[];
   initialFaqItems: FaqItem[];
 }
@@ -34,7 +30,7 @@ export function InfoSectionTabs({
   initialFaqItems,
 }: InfoSectionTabsProps) {
   const [activeSection, setActiveSection] = useState<"instagram" | "news" | "faq">("instagram");
-  const [selectedInstagramPost, setSelectedInstagramPost] = useState<PopulatedInstagramPostType | null>(null);
+  const [selectedInstagramPost, setSelectedInstagramPost] = useState<PopulatedInstagramPost | null>(null);
   const [selectedNewsItem, setSelectedNewsItem] = useState<NewsArticle | null>(initialNewsItems?.[0] || null);
   const [isLoadingInstagram, setIsLoadingInstagram] = useState(false);
 
@@ -56,7 +52,7 @@ export function InfoSectionTabs({
     setActiveSection(section);
   };
 
-  const handleInstagramPostSelect = (post: PopulatedInstagramPostType) => {
+  const handleInstagramPostSelect = (post: PopulatedInstagramPost) => {
     setSelectedInstagramPost(post);
   };
 
@@ -76,8 +72,12 @@ export function InfoSectionTabs({
         }
 
         // localImage and localVideo are now expected to be PayloadMedia objects (if populated)
-        const imageToDisplay = currentInstaPost.localImage;
-        const videoToDisplay = currentInstaPost.localVideo;
+     const imageToDisplay = (currentInstaPost.localImage && typeof currentInstaPost.localImage === 'object' && 'url' in currentInstaPost.localImage)
+          ? currentInstaPost.localImage as PayloadMedia
+          : null;
+        const videoToDisplay = (currentInstaPost.localVideo && typeof currentInstaPost.localVideo === 'object' && 'url' in currentInstaPost.localVideo)
+          ? currentInstaPost.localVideo as PayloadMedia
+          : null;
 
         return (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0 content-section-mobile">
@@ -103,7 +103,9 @@ export function InfoSectionTabs({
                   ) : imageToDisplay && imageToDisplay.url ? (
                     <Image
                       src={imageToDisplay.url}
-                      alt={imageToDisplay.alt || currentInstaPost.caption || "Instagram post"}
+                      // The 'alt' property in PayloadMedia is required (string), not optional.
+                      // So, we can use it directly if imageToDisplay is not null.
+                      alt={imageToDisplay.alt || "Instagram post image"}
                       fill
                       className="absolute inset-0 object-cover"
                       priority
@@ -136,7 +138,7 @@ export function InfoSectionTabs({
               </div>
             </div>
 
-            <div className="relative z-10 p-4 sm:p-8 md:p-12 bg-black instagram-content-mobile">
+                     <div className="relative z-10 p-4 sm:p-8 md:p-12 bg-black instagram-content-mobile">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight mb-4 sm:mb-6 text-white" style={{ fontFamily: "sans-serif" }}>
                 INSTAGRAM
               </h2>
@@ -145,7 +147,10 @@ export function InfoSectionTabs({
               </p>
               <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                 {initialInstagramPosts.slice(0, 3).map((post) => {
-                   const postListItemImage = post.localImage;
+                   // Type guard for list item image
+                   const postListItemImage = (post.localImage && typeof post.localImage === 'object' && 'url' in post.localImage)
+                     ? post.localImage as PayloadMedia
+                     : null;
                   return (
                   <div
                     key={post.id}
@@ -158,9 +163,9 @@ export function InfoSectionTabs({
                   >
                     <div className="flex items-start">
                       <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-md overflow-hidden mr-2 sm:mr-3 flex-shrink-0 post-image relative bg-gray-700">
-                        {postListItemImage && postListItemImage.url ? (
-                             <Image src={postListItemImage.url} alt={postListItemImage.alt || post.caption || "Instagram image"} fill className="object-cover" />
-                          ) : ( // Fallback if no local image or video thumbnail logic
+                        {postListItemImage?.url ? (
+                             <Image src={postListItemImage.url} alt={postListItemImage.alt} fill className="object-cover" />
+                          ) : (
                              <Image src={"/placeholder.svg"} alt={"Placeholder"} fill className="object-cover" />
                           )}
                       </div>
@@ -185,13 +190,13 @@ export function InfoSectionTabs({
           </div>
         );
 
-      // ... (news and faq cases remain the same) ...
       case "news":
         if (!selectedNewsItem && initialNewsItems.length === 0) return <p className="p-8 text-center">No news articles to display.</p>;
         const currentNewsItem = selectedNewsItem || initialNewsItems[0];
         if (!currentNewsItem) return <p className="p-8 text-center">No news article selected.</p>;
+        // Ensure coverImage and category are treated as potentially populated objects
         const coverImage = currentNewsItem?.coverImage as PayloadMedia | undefined;
-        const category = currentNewsItem?.category as Category | string | undefined;
+        const category = currentNewsItem?.category as Category | undefined; // Assuming category is populated
 
         return (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0 content-section-mobile">
@@ -208,7 +213,8 @@ export function InfoSectionTabs({
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
                 <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 text-white">
                   <div className="inline-block px-2 py-1 bg-purple-600 text-xs font-bold rounded mb-2">
-                    {typeof category === 'object' ? category?.name : category || 'General'}
+                    {/* Check if category is an object (populated) before accessing .name */}
+                    {typeof category === 'object' && category?.name ? category.name : 'General'}
                   </div>
                   <h3 className="text-xl sm:text-2xl font-bold mb-2">{currentNewsItem.title}</h3>
                   <p className="text-xs sm:text-sm mb-2 line-clamp-2 sm:line-clamp-3">{currentNewsItem.excerpt as string}</p>
@@ -255,6 +261,7 @@ export function InfoSectionTabs({
         );
 
       case "faq":
+        // ... FAQ section remains the same as your provided code
         if (initialFaqItems.length === 0) return <p className="p-8 text-center">No FAQs to display.</p>;
         return (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0 content-section-mobile">
@@ -311,11 +318,11 @@ export function InfoSectionTabs({
     }
   };
 
-  // ... (The rest of your InfoSectionTabs component's main structure remains the same)
-  return (
+   return (
     <section className="relative bg-black">
       <div className="grid grid-cols-1 md:grid-cols-12">
         <div className="md:col-span-3 bg-[#f2f2f2]/5 border-r border-purple-900/30">
+          {/* ... Sidebar content ... */}
           <div className="p-4 sm:p-6">
             <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 sm:py-3 rounded-none text-sm sm:text-base">
               SECURE YOUR TICKETS

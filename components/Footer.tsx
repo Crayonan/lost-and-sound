@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getFooterData } from "@/lib/payloadAPI";
 import { ppEditorialNewUltralightItalic } from "@/app/fonts";
 import { FooterClientInteractions } from "./FooterClientInteractions"; // For mobile accordions
-import { Footer as FooterType } from "@/payload-types";
+import { FooterQuickLink  } from "@/payload-types";
 
 export async function Footer() {
   // const locale = 'en'; // Or determine dynamically
@@ -53,7 +53,15 @@ export async function Footer() {
                 <h4 className="text-purple-400 font-semibold mb-4 text-sm">Contact</h4>
                 <div className="space-y-2 text-purple-200/70 text-sm">
                    {/* Assuming contactInfo is simple text or needs custom rendering for RichText */}
-                   {typeof footerData.contactInfo === 'string' ? footerData.contactInfo : 'Contact details in Payload'}
+                {typeof footerData.contactInfo === 'string' ? footerData.contactInfo : (
+                    <>
+                        info@lostandsound.com
+                        <br />
+                        +49 123 456 7890
+                        <br />
+                        Developed by Jesse
+                    </>
+                )}
                 </div>
               </div>
             )}
