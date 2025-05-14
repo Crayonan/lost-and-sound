@@ -1,4 +1,3 @@
-// components/RichText.tsx
 import React, { Fragment, ElementType } from 'react';
 import escapeHTML from 'escape-html';
 import Link from 'next/link';
@@ -42,7 +41,6 @@ function isListItemNode(node: SerializedLexicalNode): node is SerializedLexicalN
   return node.type === 'listitem';
 }
 
-// Recursively serialize nodes into React nodes
 const serializeLexicalNodes = (nodes?: SerializedLexicalNode[]): React.ReactNode[] => {
   if (!nodes) return [];
 

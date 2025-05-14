@@ -1,9 +1,8 @@
-// components/FooterClientInteractions.tsx
-
 "use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useT } from "@/hooks/useT";
 import { ChevronDown, ChevronUp, Instagram, Twitter, Facebook } from "lucide-react";
 import { ppEditorialNewUltralightItalic } from "@/app/fonts";
 import type { Footer as FooterType } from "@/types/payload-types";
@@ -14,25 +13,24 @@ interface FooterClientInteractionsProps {
 }
 
 export function FooterClientInteractions({ footerData }: FooterClientInteractionsProps) {
+  const t = useT();
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const toggle = (section: string) =>
     setExpandedSection(prev => (prev === section ? null : section));
 
-  // Add animate class to children when a section opens
   useEffect(() => {
     if (!expandedSection) return;
     const timer = setTimeout(() => {
-      const els = document.querySelectorAll(`.footer-section-${expandedSection} > *`);
-      els.forEach(el => el.classList.add("footer-content-animate"));
+      document
+        .querySelectorAll(`.footer-section-${expandedSection} > *`)
+        .forEach(el => el.classList.add("footer-content-animate"));
     }, 50);
     return () => clearTimeout(timer);
   }, [expandedSection]);
 
-
   const quickLinks = footerData.quickLinks ?? [];
   const socialMediaLinks = footerData.socialMediaLinks ?? [];
   const contactInfo = footerData.contactInfo;
-  const copyrightText = footerData.copyrightText;
 
   return (
     <footer className="bg-black py-8 sm:py-10 md:py-12 border-t border-purple-900/30">
@@ -42,12 +40,10 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
           {/* Logo + Social */}
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h3
-                className={`${ppEditorialNewUltralightItalic.className} text-2xl text-white`}
-              >
+              <h3 className={`${ppEditorialNewUltralightItalic.className} text-2xl text-white`}>
                 LOST&SOUND
               </h3>
-              <p className="text-xs text-purple-200/70">Festival since 2020</p>
+              <p className="text-xs text-purple-200/70">{t.footer.tagline}</p>
             </div>
             <div className="flex gap-3">
               {socialMediaLinks.map((link, i) => (
@@ -71,7 +67,7 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
               className="w-full flex justify-between items-center py-2"
               aria-expanded={expandedSection === "links"}
             >
-              <h4 className="text-purple-400 font-semibold text-sm">Quick Links</h4>
+              <h4 className="text-purple-400 font-semibold text-sm">{t.footer.quickLinksTitle}</h4>
               {expandedSection === "links" ? (
                 <ChevronUp className="h-4 w-4 text-purple-400" />
               ) : (
@@ -79,10 +75,11 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
               )}
             </button>
             <div
-              className={`overflow-hidden transition-all duration-300 ease-in-out footer-section-links ${expandedSection === "links"
-                ? "max-h-40 opacity-100 pt-2 pb-1"
-                : "max-h-0 opacity-0 pt-0 pb-0"
-                }`}
+              className={`overflow-hidden transition-all duration-300 ease-in-out footer-section-links ${
+                expandedSection === "links"
+                  ? "max-h-40 opacity-100 pt-2 pb-1"
+                  : "max-h-0 opacity-0 pt-0 pb-0"
+              }`}
             >
               {quickLinks.map((item, i) => (
                 <Link
@@ -103,7 +100,7 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
               className="w-full flex justify-between items-center py-2"
               aria-expanded={expandedSection === "contact"}
             >
-              <h4 className="text-purple-400 font-semibold text-sm">Contact</h4>
+              <h4 className="text-purple-400 font-semibold text-sm">{t.footer.contactTitle}</h4>
               {expandedSection === "contact" ? (
                 <ChevronUp className="h-4 w-4 text-purple-400" />
               ) : (
@@ -111,10 +108,11 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
               )}
             </button>
             <div
-              className={`overflow-hidden transition-all duration-300 ease-in-out footer-section-contact ${expandedSection === "contact"
-                ? "max-h-40 opacity-100 pt-2 pb-1"
-                : "max-h-0 opacity-0 pt-0 pb-0"
-                }`}
+              className={`overflow-hidden transition-all duration-300 ease-in-out footer-section-contact ${
+                expandedSection === "contact"
+                  ? "max-h-40 opacity-100 pt-2 pb-1"
+                  : "max-h-0 opacity-0 pt-0 pb-0"
+              }`}
             >
               {contactInfo && <RichText content={contactInfo} />}
             </div>
@@ -122,7 +120,7 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
 
           {/* Copyright */}
           <div className="mt-4 pt-4 border-t border-purple-900/30 text-center text-purple-200/50">
-            <p className="text-xs">{copyrightText}</p>
+            <p className="text-xs">{t.footer.copyright}</p>
           </div>
         </div>
 
@@ -135,14 +133,12 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
                 <h3 className={`${ppEditorialNewUltralightItalic.className} text-2xl text-white mb-4`}>
                   LOST&SOUND
                 </h3>
-                <p className="text-purple-200/70">
-                  The ultimate music festival experience since 2020.
-                </p>
+                <p className="text-purple-200/70">{t.footer.tagline}</p>
               </div>
 
               {/* Quick Links */}
               <div>
-                <h4 className="text-purple-400 font-semibold mb-4">Quick Links</h4>
+                <h4 className="text-purple-400 font-semibold mb-4">{t.footer.quickLinksTitle}</h4>
                 <ul className="space-y-2">
                   {quickLinks.map((item, i) => (
                     <li key={item.id ?? i}>
@@ -159,7 +155,7 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
 
               {/* Contact */}
               <div>
-                <h4 className="text-purple-400 font-semibold mb-4">Contact</h4>
+                <h4 className="text-purple-400 font-semibold mb-4">{t.footer.contactTitle}</h4>
                 <div className="prose prose-invert">
                   {contactInfo && <RichText content={contactInfo} />}
                 </div>
@@ -167,15 +163,15 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
 
               {/* Follow Us */}
               <div>
-                <h4 className="text-purple-400 font-semibold mb-4">Follow Us</h4>
+                <h4 className="text-purple-400 font-semibold mb-4">{t.footer.followUsTitle}</h4>
                 <div className="flex flex-col sm:flex-row sm:items-center sm:gap-6 gap-4">
                   {socialMediaLinks.map((link, i) => {
                     const Icon =
                       link.platform === "instagram"
                         ? Instagram
                         : link.platform === "twitter"
-                          ? Twitter
-                          : Facebook;
+                        ? Twitter
+                        : Facebook;
                     const label = link.platform[0].toUpperCase() + link.platform.slice(1);
                     return (
                       <Link
@@ -195,9 +191,7 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
 
           {/* Full-width copyright */}
           <div className="w-full mt-12 pt-8 border-t border-purple-900/30">
-            <p className="text-center text-purple-200/50">
-              © 2025 LOST &amp; SOUND Festival. All rights reserved.
-            </p>
+            <p className="text-center text-purple-200/50">{t.footer.copyright}</p>
           </div>
         </div>
       </div>

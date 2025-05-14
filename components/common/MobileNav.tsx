@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useT } from "@/hooks/useT";
 import { Ticket, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { HeaderNavItemLink } from "@/types/payload-types";
@@ -10,13 +11,12 @@ interface MobileNavProps {
   navItems?: { id?: string | null; link: HeaderNavItemLink }[];
 }
 
-// Adjust this to match the actual rendered height of your Header
 const HEADER_HEIGHT_PX = 73;
 
 export function MobileNav({ navItems = [] }: MobileNavProps) {
+  const t = useT();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Prevent background scroll when menu is open
   useEffect(() => {
     document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
     return () => {
@@ -79,7 +79,7 @@ export function MobileNav({ navItems = [] }: MobileNavProps) {
               <Button asChild className="bg-purple-600 hover:bg-purple-500 text-white w-full mt-8">
                 <Link href="/tickets" onClick={() => setMobileMenuOpen(false)}>
                   <Ticket className="mr-2 h-5 w-5" />
-                  Get Tickets
+                  {t.header.getTickets}
                 </Link>
               </Button>
             </nav>

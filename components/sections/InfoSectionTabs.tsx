@@ -1,7 +1,7 @@
-// components/InfoSectionTabs.client.tsx
 "use client";
 
 import { useState, useEffect } from "react";
+import { useT } from "@/hooks/useT";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Instagram, HelpCircle, ExternalLink } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -14,12 +14,11 @@ import type {
   FaqItem,
   Category,
   Media as PayloadMedia,
-  // InstagramPost as InstagramPostPayload, // Base type not needed here directly
 } from '@/types/payload-types';
-import type { PopulatedInstagramPost } from "@/lib/payloadAPI"; // Import the populated type
+import type { PopulatedInstagramPost } from "@/lib/payloadAPI"; 
 
 interface InfoSectionTabsProps {
-  initialInstagramPosts: PopulatedInstagramPost[]; // Use the populated type from payloadAPI
+  initialInstagramPosts: PopulatedInstagramPost[]; 
   initialNewsItems: NewsArticle[];
   initialFaqItems: FaqItem[];
 }
@@ -29,6 +28,7 @@ export function InfoSectionTabs({
   initialNewsItems,
   initialFaqItems,
 }: InfoSectionTabsProps) {
+  const t = useT();
   const [activeSection, setActiveSection] = useState<"instagram" | "news" | "faq">("instagram");
   const [selectedInstagramPost, setSelectedInstagramPost] = useState<PopulatedInstagramPost | null>(null);
   const [selectedNewsItem, setSelectedNewsItem] = useState<NewsArticle | null>(initialNewsItems?.[0] || null);
@@ -64,14 +64,13 @@ export function InfoSectionTabs({
     switch (activeSection) {
       case "instagram":
         if (!initialInstagramPosts || initialInstagramPosts.length === 0) {
-          return <p className="p-8 text-center">No Instagram posts to display.</p>;
+          return <p className="p-8 text-center">{t.info.noInstagramPosts}</p>;
         }
         const currentInstaPost = selectedInstagramPost || initialInstagramPosts[0];
         if (!currentInstaPost) {
-          return <p className="p-8 text-center">Loading Instagram post...</p>;
+          return <p className="p-8 text-center">{t.info.loadingInstagram}</p>;
         }
 
-        // localImage and localVideo are now expected to be PayloadMedia objects (if populated)
      const imageToDisplay = (currentInstaPost.localImage && typeof currentInstaPost.localImage === 'object' && 'url' in currentInstaPost.localImage)
           ? currentInstaPost.localImage as PayloadMedia
           : null;
@@ -103,8 +102,6 @@ export function InfoSectionTabs({
                   ) : imageToDisplay && imageToDisplay.url ? (
                     <Image
                       src={imageToDisplay.url}
-                      // The 'alt' property in PayloadMedia is required (string), not optional.
-                      // So, we can use it directly if imageToDisplay is not null.
                       alt={imageToDisplay.alt || "Instagram post image"}
                       fill
                       className="absolute inset-0 object-cover"
@@ -113,7 +110,7 @@ export function InfoSectionTabs({
                     />
                   ) : (
                      <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
-                       <p className="text-white">Media not available for this post</p>
+                       <p className="text-white">{t.info.noInstagramPosts}</p>
                      </div>
                   )}
                 </>
@@ -140,14 +137,13 @@ export function InfoSectionTabs({
 
                      <div className="relative z-10 p-4 sm:p-8 md:p-12 bg-black instagram-content-mobile">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight mb-4 sm:mb-6 text-white" style={{ fontFamily: "sans-serif" }}>
-                INSTAGRAM
+                {t.info.instagram}
               </h2>
               <p className="text-sm sm:text-base text-white/80 mb-4 sm:mb-6">
-                Follow us on Instagram for the latest updates and behind-the-scenes content.
+                {t.info.instagramFollow}
               </p>
               <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                 {initialInstagramPosts.slice(0, 3).map((post) => {
-                   // Type guard for list item image
                    const postListItemImage = (post.localImage && typeof post.localImage === 'object' && 'url' in post.localImage)
                      ? post.localImage as PayloadMedia
                      : null;
@@ -183,7 +179,7 @@ export function InfoSectionTabs({
                 rel="noopener noreferrer"
                 className="inline-flex items-center text-sm sm:text-base text-purple-400 hover:text-purple-300 transition-colors"
               >
-                <span>View all posts on Instagram</span>
+                <span>{t.info.viewAllInstagram}</span>
                 <ExternalLink className="ml-2 w-3 h-3 sm:w-4 sm:h-4" />
               </a>
             </div>
@@ -191,12 +187,11 @@ export function InfoSectionTabs({
         );
 
       case "news":
-        if (!selectedNewsItem && initialNewsItems.length === 0) return <p className="p-8 text-center">No news articles to display.</p>;
+        if (!selectedNewsItem && initialNewsItems.length === 0) return <p className="p-8 text-center">N{t.info.noNewsPosts}</p>;
         const currentNewsItem = selectedNewsItem || initialNewsItems[0];
-        if (!currentNewsItem) return <p className="p-8 text-center">No news article selected.</p>;
-        // Ensure coverImage and category are treated as potentially populated objects
+        if (!currentNewsItem) return <p className="p-8 text-center">{t.info.noNewsSelected}</p>;
         const coverImage = currentNewsItem?.coverImage as PayloadMedia | undefined;
-        const category = currentNewsItem?.category as Category | undefined; // Assuming category is populated
+        const category = currentNewsItem?.category as Category | undefined; 
 
         return (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0 content-section-mobile">
@@ -213,7 +208,6 @@ export function InfoSectionTabs({
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
                 <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 text-white">
                   <div className="inline-block px-2 py-1 bg-purple-600 text-xs font-bold rounded mb-2">
-                    {/* Check if category is an object (populated) before accessing .name */}
                     {typeof category === 'object' && category?.name ? category.name : 'General'}
                   </div>
                   <h3 className="text-xl sm:text-2xl font-bold mb-2">{currentNewsItem.title}</h3>
@@ -224,7 +218,7 @@ export function InfoSectionTabs({
             </div>
             <div className="p-4 sm:p-8 md:p-12 bg-black">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight mb-4 sm:mb-6 text-white" style={{ fontFamily: "sans-serif" }}>
-                NEWS
+                {t.info.news}
               </h2>
               <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                 {initialNewsItems.slice(0, 4).map((newsItem) => (
@@ -253,7 +247,7 @@ export function InfoSectionTabs({
               </div>
               <Link href="/news" passHref>
                 <Button className="w-full bg-purple-600 hover:bg-purple-500 text-white text-sm sm:text-base">
-                  View All News
+                  {t.info.viewAllNews}
                 </Button>
               </Link>
             </div>
@@ -261,8 +255,7 @@ export function InfoSectionTabs({
         );
 
       case "faq":
-        // ... FAQ section remains the same as your provided code
-        if (initialFaqItems.length === 0) return <p className="p-8 text-center">No FAQs to display.</p>;
+        if (initialFaqItems.length === 0) return <p className="p-8 text-center">{t.info.noFaqs}</p>;
         return (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0 content-section-mobile">
             <div className="relative h-[30vh] sm:h-[40vh] md:h-[80vh] faq-image-mobile">
@@ -277,17 +270,17 @@ export function InfoSectionTabs({
                 <div className="text-center p-4 sm:p-6 max-w-xs sm:max-w-sm md:max-w-md">
                   <HelpCircle className="w-10 h-10 sm:w-16 sm:h-16 text-purple-400 mx-auto mb-3 sm:mb-4" />
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-4 text-white">
-                    Frequently Asked Questions
+                    {t.info.faq}
                   </h3>
                   <p className="text-xs sm:text-sm text-white/80">
-                    Find answers to the most common questions about LOST&SOUND Festival.
+                    {t.info.stillQuestions}
                   </p>
                 </div>
               </div>
             </div>
             <div className="p-4 sm:p-8 md:p-12 bg-black faq-content-mobile">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight mb-4 sm:mb-6 text-white" style={{ fontFamily: "sans-serif" }}>
-                FAQ
+                {t.info.faq}
               </h2>
               <Accordion type="single" collapsible className="w-full faq-accordion-mobile">
                 {initialFaqItems.map((faq, index) => (
@@ -302,12 +295,12 @@ export function InfoSectionTabs({
                 ))}
               </Accordion>
               <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-purple-900/30">
-                <h3 className="text-base sm:text-lg font-bold text-white mb-2">Still have questions?</h3>
+                <h3 className="text-base sm:text-lg font-bold text-white mb-2">{t.info.stillQuestions}</h3>
                 <p className="text-xs sm:text-sm text-white/70 mb-3 sm:mb-4">
-                  Our support team is here to help. Contact us via email or social media.
+                  {t.info.stillQuestionsDesc}
                 </p>
                 <Button className="bg-purple-600 hover:bg-purple-500 text-white text-sm sm:text-base">
-                  Contact Support
+                  {t.info.contactSupport}
                 </Button>
               </div>
             </div>
@@ -325,17 +318,17 @@ export function InfoSectionTabs({
           {/* ... Sidebar content ... */}
           <div className="p-4 sm:p-6">
             <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 sm:py-3 rounded-none text-sm sm:text-base">
-              SECURE YOUR TICKETS
+              {t.info.secureTickets}
             </Button>
           </div>
           <div className="flex flex-row lg:flex-col border-t border-purple-900/30">
             <div className="flex-1 p-4 sm:p-6 lg:border-b-0 border-r md:border-r-0 border-purple-900/30">
-              <p className="text-right text-xs uppercase tracking-wider text-purple-300/70 mb-1 sm:mb-2">DATE</p>
-              <p className="text-right text-sm sm:text-xl font-medium">AUGUST 22 - 24, 2025</p>
+              <p className="text-right text-xs uppercase tracking-wider text-purple-300/70 mb-1 sm:mb-2">{t.info.dateLabel}</p>
+              <p className="text-right text-sm sm:text-xl font-medium">{t.info.dateValue}</p>
             </div>
             <div className="flex-1 p-4 sm:p-6">
-              <p className="text-right text-xs uppercase tracking-wider text-purple-300/70 mb-1 sm:mb-2">LOCATION</p>
-              <p className="text-right text-sm sm:text-xl font-medium">BRODOWIN</p>
+              <p className="text-right text-xs uppercase tracking-wider text-purple-300/70 mb-1 sm:mb-2">{t.info.locationLabel}</p>
+              <p className="text-right text-sm sm:text-xl font-medium">{t.info.locationValue}</p>
             </div>
           </div>
           <div className="mt-6 md:mt-12 flex lg:flex-col overflow-x-auto md:overflow-x-visible pb-2 md:pb-0">
@@ -357,7 +350,7 @@ export function InfoSectionTabs({
                   : "text-white hover:text-purple-400"
               }`}
             >
-              NEWS
+              {t.info.news}
             </button>
             <button
               onClick={() => handleSectionChange("faq")}
@@ -367,7 +360,7 @@ export function InfoSectionTabs({
                   : "text-white hover:text-purple-400"
               }`}
             >
-              FAQ
+              {t.info.faq}
             </button>
           </div>
         </div>

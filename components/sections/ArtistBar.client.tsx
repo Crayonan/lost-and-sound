@@ -1,5 +1,4 @@
-// components/ArtistBar.client.tsx
-"use client" // Add this
+"use client" 
 import { motion } from "framer-motion"
 import React from "react"
 
@@ -7,27 +6,25 @@ interface ArtistBarProps {
   items: string[]
 }
 
-export function ArtistBar({ items }: ArtistBarProps) { // Changed to named export for consistency
+export function ArtistBar({ items }: ArtistBarProps) { 
   const marqueeVariants = {
     animate: {
-      x: [0, -1000], // Adjust based on content width for smoother loop
+      x: [0, -1000],
       transition: {
         x: {
           repeat: Number.POSITIVE_INFINITY,
           repeatType: "loop",
-          duration: 20, // Adjust duration as needed
+          duration: 20,
           ease: "linear",
         },
       },
     },
   }
 
-  // Duplicate the items to create a seamless loop effect
   const allItems = items.length > 0 ? [...items, ...items] : [];
 
-
   if (items.length === 0) {
-    return null; // Don't render if no items
+    return null; 
   }
 
   return (

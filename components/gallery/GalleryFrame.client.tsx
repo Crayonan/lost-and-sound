@@ -1,19 +1,18 @@
-// components/GalleryFrame.client.tsx
-"use client"; // Add this
+"use client";
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FrameItem } from "./FrameItem"; // Assuming FrameItem is also client-side
+import { FrameItem } from "./FrameItem"; 
 import { useMobile } from "@/hooks/use-mobile";
 
-interface FrameData { // Define a type for the frame items
+interface FrameData { 
   id: number | string;
   image: string;
   defaultPos: { x: number; y: number; w: number; h: number };
   mediaSize: number;
   borderThickness: number;
   borderSize: number;
-  isHovered: boolean; // This will be managed internally now
+  isHovered: boolean; 
   label: string;
 }
 
@@ -28,16 +27,15 @@ export default function GalleryFrame({ initialFrames }: GalleryFrameProps) {
   const [gapSize] = useState(8);
   const { isMobile } = useMobile();
 
-  const showFrames = isMobile; // Frames are always "expanded" on mobile in this context
+  const showFrames = isMobile; 
 
   useEffect(() => {
     if (isMobile && hoveredCell !== null) {
-      setHoveredCell(null); // Disable hover effect logic on mobile
+      setHoveredCell(null);
     }
   }, [isMobile, hoveredCell]);
 
   useEffect(() => {
-    // Update internal frames if initialFrames prop changes
     setFrames(initialFrames.map(f => ({...f, isHovered: false})));
   }, [initialFrames]);
 
@@ -117,12 +115,11 @@ export default function GalleryFrame({ initialFrames }: GalleryFrameProps) {
                 width="100%"
                 height="100%"
                 className="absolute inset-0"
-                mediaSize={frame.mediaSize} // This prop seems unused in FrameItem, remove if not needed
-                // onMediaSizeChange={() => {}} // Placeholder, remove if not needed
-                showControls={false} // Assuming no controls needed for gallery items
+                mediaSize={frame.mediaSize} 
+                showControls={false} 
                 label={frame.label}
                 showFrame={showFrames}
-                isHovered={isCurrentlyHovered || isMobile} // Always show label on mobile if isHovered logic is for desktop
+                isHovered={isCurrentlyHovered || isMobile} 
                 isMobile={isMobile}
               />
             </MotionDivOrDiv>

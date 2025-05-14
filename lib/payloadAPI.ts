@@ -1,4 +1,3 @@
-// lib/payloadAPI.ts
 import type {
   Page,
   Artist,
@@ -8,7 +7,7 @@ import type {
   Footer as FooterType,
   NewsArticle,
   FaqItem,
-  InstagramPost as InstagramPostPayload,// Ensure this type exists or define a basic one
+  InstagramPost as InstagramPostPayload,
 } from '@/types/payload-types';
 
 const PAYLOAD_API_URL = process.env.NEXT_PUBLIC_PAYLOAD_URL || 'http://localhost:3000';
@@ -51,12 +50,11 @@ async function fetchAPI<T>(endpointPath: string, options: RequestInit = {}, tags
 
 // --- Types for API Responses with Populated Data ---
 type PopulatedField<TFieldRelationship> = TFieldRelationship extends (infer IDType | null | undefined) | infer PopulatedType
-  ? PopulatedType extends object // Check if PopulatedType is an object
-    ? PopulatedType | null // It's the populated object or null
-    : TFieldRelationship // Fallback to original type if structure is unexpected or not a relationship
+  ? PopulatedType extends object 
+    ? PopulatedType | null 
+    : TFieldRelationship 
   : TFieldRelationship;
 
-// For collection responses from Payload
 interface CollectionResponse<T> {
   docs: T[];
   totalDocs: number;
@@ -70,15 +68,17 @@ interface CollectionResponse<T> {
   nextPage: number | null;
 }
 
+
+
 // --- Global Data ---
 export async function getHeaderData(locale?: string): Promise<HeaderType | null> {
-  const params = new URLSearchParams({ depth: '2' }); // Increased depth for potential nested links
+  const params = new URLSearchParams({ depth: '2' }); 
   if (locale) params.append('locale', locale);
   return fetchAPI<HeaderType>(`/globals/header?${params.toString()}`, {}, ['global_header']);
 }
 
 export async function getFooterData(locale?: string): Promise<FooterType | null> {
-  const params = new URLSearchParams({ depth: '2' }); // Increased depth
+  const params = new URLSearchParams({ depth: '2' }); 
   if (locale) params.append('locale', locale);
   return fetchAPI<FooterType>(`/globals/footer?${params.toString()}`, {}, ['global_footer']);
 }
@@ -133,3 +133,4 @@ export async function getInstagramPostsFromPayload(limit: number = 5): Promise<P
     return [];
   }
 }
+
