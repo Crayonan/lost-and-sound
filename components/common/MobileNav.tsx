@@ -77,7 +77,7 @@ export function MobileNav({ navItems = [] }: MobileNavProps) {
 
               {/* Tickets CTA */}
               <Button asChild className="bg-purple-600 hover:bg-purple-500 text-white w-full mt-8">
-                <Link href="/tickets" onClick={() => setMobileMenuOpen(false)}>
+                <Link href="https://tickets.infield.live/event/lost-and-sound-2025-nrzehh" onClick={() => setMobileMenuOpen(false)}>
                   <Ticket className="mr-2 h-5 w-5" />
                   {t.header.getTickets}
                 </Link>

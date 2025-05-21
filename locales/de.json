@@ -7,7 +7,11 @@
       "sm1": "Sommer",
       "sm2": "Klang",
       "sm3": "Freude"
-    }
+    },
+    "day": "Tage",
+    "hour": "Stunden",
+    "minute": "Minuten",
+    "second": "Sekunden"
   },
   "header": {
     "festivalText": "Sommer.Klang.Freude",
@@ -15,7 +19,7 @@
     "getTickets": "Tickets sichern"
   },
   "footer": {
-    "tagline": "Festival seit 2020",
+    "tagline": "Festival seit 2023",
     "copyright": "© 2025 LOST & SOUND Festival. Alle Rechte vorbehalten.",
     "quickLinksTitle": "Schnelllinks",
     "contactTitle": "Kontakt",

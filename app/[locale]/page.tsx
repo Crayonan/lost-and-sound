@@ -8,6 +8,7 @@ import {
 import { ArtistBar } from "@/components/sections/ArtistBar.client";
 import GalleryFrame from "@/components/gallery/GalleryFrame.client";
 import InfoSection from "@/components/sections/InfoSection";
+import Countdown from "@/components/sections/Countdown";
 import { ppEditorialNewUltralightItalic } from "../fonts";
 import type {
   Page as PageType,
@@ -85,12 +86,7 @@ export default async function HomePage({
         )}
         <div className="container mx-auto px-4 h-full flex flex-col justify-end pb-20 relative z-20">
           <h1 className="text-6xl lg:text-8xl font-bold text-white tracking-tight leading-none mb-6">
-            <span className="hidden lg:inline">{t.home.hero.bg}</span>
-            <span className="flex flex-col lg:hidden">
-              <span>{t.home.hero.sm1}</span>
-              <span>{t.home.hero.sm2}</span>
-              <span>{t.home.hero.sm3}</span>
-            </span>
+            <Countdown date={1755820800000} t={t} />
           </h1>
           {hero?.subheading && (
             <p className="text-xl lg:text-2xl text-white/80 max-w-2xl">

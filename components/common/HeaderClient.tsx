@@ -52,12 +52,19 @@ export default function HeaderClient({ navItems }: HeaderClientProps) {
 
         {/* Actions + mobile */}
         <div className="flex items-center gap-4">
-          <Button className="bg-purple-600 hover:bg-purple-500 text-white hidden sm:flex">
-            <Ticket className="mr-2 h-4 w-4" />
-            {t.header.getTickets}
-          </Button>
+          <a
+              href="https://tickets.infield.live/event/lost-and-sound-2025-nrzehh"
+              target="_blank"
+              rel="noopener noreferrer"
+          >
+            <Button className="bg-purple-600 hover:bg-purple-500 text-white hidden sm:flex">
+              <Ticket className="mr-2 h-4 w-4" />
+              {t.header.getTickets}
+            </Button>
+          </a>
           <MobileNav navItems={navItems} />
         </div>
+
       </div>
     </header>
   );

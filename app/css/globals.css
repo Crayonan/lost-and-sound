@@ -74,20 +74,22 @@
 
 /* Video positioning for better focus on mobile */
 .video-focus {
-  object-position: center;
+  object-position: 45% 40%;
 }
 
 @media (max-width: 768px) {
   .video-focus {
-    object-position: 25% center;
+    object-position: 40% 30%;
   }
 }
 
 @media (max-width: 480px) {
   .video-focus {
-    object-position: 30% center;
+    object-position: 35% 25%;
   }
 }
+
+
 
 /* Disable animations on mobile for better performance */
 @media (max-width: 768px) {
