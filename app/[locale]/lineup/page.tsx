@@ -1,4 +1,4 @@
-import ArtistPage from '@/components/artists/artist-page'
+import ArtistPage from '@/components/artists/ArtistPage'
 
 interface LineupRoutePageProps {
   params: {

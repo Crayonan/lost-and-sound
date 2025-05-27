@@ -3,25 +3,25 @@
 import { useEffect, useState } from 'react'
 import Loader from '@/components/ui/loader'
 
-const RIPPLE_DURATION_MS = 1000 // ⏱ Match the ripple animation duration
+const RIPPLE_DURATION_MS = 1000
 
 export default function DelayedRender({ children }: { children: React.ReactNode }) {
-  const [show, setShow] = useState(false)
+    const [show, setShow] = useState(false)
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setShow(true)
-    }, RIPPLE_DURATION_MS) // wait exactly one ripple cycle
-    return () => clearTimeout(timeout)
-  }, [])
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setShow(true)
+        }, RIPPLE_DURATION_MS)
+        return () => clearTimeout(timeout)
+    }, [])
 
-  if (!show) {
-    return (
-      <div className="h-screen flex items-center justify-center">
-        <Loader />
-      </div>
-    )
-  }
+    if (!show) {
+        return (
+            <div className="h-screen flex items-center justify-center">
+                <Loader />
+            </div>
+        )
+    }
 
-  return <>{children}</>
+    return <>{children}</>
 }

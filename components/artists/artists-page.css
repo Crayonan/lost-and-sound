@@ -1,6 +1,3 @@
-/* src/app/lineup/artists-page.css */
-
-/* Base resets */
 *,
 *::after,
 *::before {
@@ -179,14 +176,14 @@ img {
 }
 
 .act::before {
-  background-image: url(/images/artist-border-left-2.png);
+  background-image: url(/public/images/artist-border-left-2.png);
   inset-block-start: 0;
   inset-inline-start: 0;
   transform: translate(-100%, -100%);
 }
 
 .act::after {
-  background-image: url(/images/artist-border-right-2.png);
+  background-image: url(/public/images/artist-border-right-2.png);
   background-size: cover;
   inset-block-end: 0;
   inset-inline-end: 0;

@@ -1,4 +1,3 @@
-// src/components/artists/artist-modal.tsx (or your preferred path)
 'use client'
 
 import Image from 'next/image'
@@ -7,7 +6,6 @@ import type { Artist as PayloadArtist, Media as PayloadMedia } from '@/types/pay
 import { FaInstagram, FaTwitter, FaSpotify, FaSoundcloud, FaFacebook } from 'react-icons/fa'
 import { JSX } from 'react'
 
-// Helper to extract text from Lexical bio (basic implementation)
 function extractTextFromLexical(lexicalBio?: PayloadArtist['bio']): string {
   if (!lexicalBio || !lexicalBio.root || !lexicalBio.root.children) {
     return 'No biography available.'
@@ -18,25 +16,24 @@ function extractTextFromLexical(lexicalBio?: PayloadArtist['bio']): string {
       if (node.type === 'text' && node.text) {
         textContent += node.text + ' '
       }
-      // For paragraph and heading nodes, add a line break after processing children.
       if (node.type === 'paragraph' || node.type === 'heading') {
         if (node.children && Array.isArray(node.children)) {
           traverse(node.children)
         }
-        textContent += '\n' // Add a line break after paragraph or heading content
+        textContent += '\n'
       } else if (node.children && Array.isArray(node.children)) {
         traverse(node.children)
       }
     }
   }
   traverse(lexicalBio.root.children)
-  return textContent.trim().replace(/\n\s*\n/g, '\n') || 'No biography available.' // Replace multiple newlines
+  return textContent.trim().replace(/\n\s*\n/g, '\n') || 'No biography available.'
 }
 
 // Helper to format day
 const formatDisplayDay = (day?: 'friday' | 'saturday' | 'sunday' | null): string => {
   if (!day) return 'TBA'
-  return day.charAt(0).toUpperCase() + day.slice(1) // Friday, Saturday, Sunday
+  return day.charAt(0).toUpperCase() + day.slice(1)
 }
 
 // Helper to format time
@@ -65,7 +62,6 @@ const formatDisplayLocation = (
   }
 }
 
-// Social Icons (simplified example, ideally use an icon library or full SVGs)
 const SocialIcons: Record<string, JSX.Element> = {
   instagram: <FaInstagram className="w-7 h-7 text-sky-950 hover:text-sky-700" />,
   twitter: <FaTwitter className="w-7 h-7 text-sky-950 hover:text-sky-700" />,

@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useRef, useEffect, useMemo, useCallback } from 'react' // Added useCallback
-import { Button } from '@/components/ui/button'
-import ArtistCard, { type ArtistCardProps } from './artist-card'
-import ArtistModal from './artist-modal' // Import the modal
-import { getArtists } from '@/lib/payloadAPI'
-import type { Artist as PayloadArtist, Media as PayloadMedia } from '@/types/payload-types'
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {Button} from '@/components/ui/button'
+import ArtistCard, {type ArtistCardProps} from './ArtistCard'
+import ArtistModal from './ArtistModal'
+import {getArtists} from '@/lib/payloadAPI'
+import type {Artist as PayloadArtist, Media as PayloadMedia} from '@/types/payload-types'
 import './artists-page.css'
 
 const PAYLOAD_PUBLIC_URL = process.env.NEXT_PUBLIC_PAYLOAD_URL || 'http://localhost:3000'
@@ -15,8 +15,6 @@ export type FilterType = 'A-Z' | 'VR' | 'ZA' | 'ZO'
 export interface ArtistPageProps {
   title?: string
 }
-
-// Helper function moved from ArtistModal as they are also used here for mapping
 const formatLocationForDisplay = (
   location?: ('main-stage' | 'outside-stage' | 'tent-area') | null
 ): string => {
@@ -41,13 +39,11 @@ const mapPayloadDayToCardDay = (payloadDay?: ('friday' | 'saturday' | 'sunday') 
 
 export default function ArtistPage({ title = 'LINE-UP' }: ArtistPageProps) {
   const [mappedArtists, setMappedArtists] = useState<ArtistCardProps[]>([])
-  const [rawPayloadArtists, setRawPayloadArtists] = useState<PayloadArtist[]>([]) // Store raw data
+  const [rawPayloadArtists, setRawPayloadArtists] = useState<PayloadArtist[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
   const [activeFilter, setActiveFilter] = useState<FilterType>('A-Z')
   const videoRef = useRef<HTMLVideoElement>(null)
-
-  // Modal State
   const [selectedArtist, setSelectedArtist] = useState<PayloadArtist | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
@@ -65,7 +61,7 @@ export default function ArtistPage({ title = 'LINE-UP' }: ArtistPageProps) {
       setError(null)
       try {
         const fetchedPayloadArtists: PayloadArtist[] = await getArtists()
-        setRawPayloadArtists(fetchedPayloadArtists) // Store raw data
+        setRawPayloadArtists(fetchedPayloadArtists)
 
         const newMappedArtists: ArtistCardProps[] = fetchedPayloadArtists.map(payloadArtist => {
           let imageUrl = '/placeholder.svg'
@@ -88,13 +84,11 @@ export default function ArtistPage({ title = 'LINE-UP' }: ArtistPageProps) {
           }
 
           return {
-            // Keep only necessary props for ArtistCard
             name: payloadArtist.name,
             image: imageUrl,
             day: mapPayloadDayToCardDay(payloadArtist.day),
             time: timeString,
             venue: formatLocationForDisplay(payloadArtist.location),
-            // altTitle is not in PayloadArtist, ArtistCard will use name
           }
         })
         setMappedArtists(newMappedArtists)
@@ -122,17 +116,14 @@ export default function ArtistPage({ title = 'LINE-UP' }: ArtistPageProps) {
       }
     },
     [rawPayloadArtists]
-  ) // Dependency on rawPayloadArtists
+  )
 
   const handleCloseModal = useCallback(() => {
     setIsModalOpen(false)
-    // Optional: Delay clearing selectedArtist to allow for modal closing animation
-    // setTimeout(() => setSelectedArtist(null), 300);
-    setSelectedArtist(null) // Clear immediately if no animation concerns
+    setSelectedArtist(null)
   }, [])
 
   const filteredMappedArtists = useMemo(() => {
-    // Renamed to avoid conflict
     let currentArtists = [...mappedArtists]
     switch (activeFilter) {
       case 'A-Z':
@@ -152,12 +143,11 @@ export default function ArtistPage({ title = 'LINE-UP' }: ArtistPageProps) {
     <Button
       variant={activeFilter === filterType ? 'secondary' : 'outline'}
       className={`
-        ${
-          activeFilter === filterType
-            ? filterType === 'ZO'
-              ? 'bg-yellow-400 hover:bg-yellow-500'
-              : 'bg-purple-400 hover:bg-purple-500'
-            : 'bg-white hover:bg-gray-100'
+        ${activeFilter === filterType
+          ? filterType === 'ZO'
+            ? 'bg-yellow-400 hover:bg-yellow-500'
+            : 'bg-purple-400 hover:bg-purple-500'
+          : 'bg-white hover:bg-gray-100'
         } 
         text-black font-bold px-8
       `}
@@ -189,7 +179,6 @@ export default function ArtistPage({ title = 'LINE-UP' }: ArtistPageProps) {
   return (
     <>
       {' '}
-      {/* Use Fragment to wrap main and modal */}
       <main className="min-h-screen relative bg-black">
         <div className="w-full overflow-hidden relative">
           <div className="absolute inset-0 bg-black/30"></div>
@@ -212,7 +201,7 @@ export default function ArtistPage({ title = 'LINE-UP' }: ArtistPageProps) {
               <ol className="act-list">
                 {filteredMappedArtists.map(
                   (
-                    artistProps // artistProps is ArtistCardProps
+                    artistProps
                   ) => (
                     <li key={artistProps.name} className="act-list__item">
                       <ArtistCard
