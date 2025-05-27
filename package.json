@@ -57,6 +57,7 @@
     "react-day-picker": "8.10.1",
     "react-dom": "^19",
     "react-hook-form": "^7.54.1",
+    "react-icons": "^5.5.0",
     "react-resizable-panels": "^2.1.7",
     "recharts": "2.15.0",
     "sonner": "^1.7.1",
@@ -70,8 +71,12 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "eslint": "^9.27.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "postcss": "^8",
+    "prettier": "^3.5.3",
     "tailwindcss": "^3.4.17",
+    "ts-prune": "^0.10.3",
     "typescript": "^5"
   }
 }

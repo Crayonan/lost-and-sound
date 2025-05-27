@@ -1,39 +1,39 @@
-"use client";
+'use client'
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { useT } from "@/hooks/useT";
-import { Ticket, Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { NAV_LINKS } from "@/config/navLinks";
-import { useParams } from "next/navigation";
-import { LocaleSwitcher } from "@/components/common/LocaleSwitcher";
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { useT } from '@/hooks/useT'
+import { Ticket, Menu, X } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { NAV_LINKS } from '@/config/navLinks'
+import { useParams } from 'next/navigation'
+import { LocaleSwitcher } from '@/components/common/LocaleSwitcher'
 
-const HEADER_HEIGHT_PX = 73;
+const HEADER_HEIGHT_PX = 73
 
 export function MobileNav() {
-  const t = useT();
-  const { locale } = useParams();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const t = useT()
+  const { locale } = useParams()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
-    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : ''
     return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileMenuOpen]);
+      document.body.style.overflow = ''
+    }
+  }, [mobileMenuOpen])
 
   const localizedLinks = NAV_LINKS.map(link => ({
     ...link,
     url: `/${locale}/${link.slug}`,
-  }));
+  }))
 
   return (
     <>
       <div className="flex items-center justify-between w-full px-2 lg:hidden">
         <LocaleSwitcher />
         <button
-          onClick={() => setMobileMenuOpen((o) => !o)}
+          onClick={() => setMobileMenuOpen(o => !o)}
           className="relative z-50 text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500"
           aria-label="Toggle mobile menu"
           aria-expanded={mobileMenuOpen}
@@ -54,7 +54,7 @@ export function MobileNav() {
         >
           <div
             className="container mx-auto px-4 py-8 h-full overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
           >
             <nav className="flex flex-col space-y-6">
               {localizedLinks.map((link, idx) => (
@@ -82,5 +82,5 @@ export function MobileNav() {
         </div>
       )}
     </>
-  );
+  )
 }

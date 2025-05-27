@@ -1,30 +1,30 @@
-"use client" 
-import { motion } from "framer-motion"
-import React from "react"
+'use client'
+import { motion } from 'framer-motion'
+import React from 'react'
 
 interface ArtistBarProps {
   items: string[]
 }
 
-export function ArtistBar({ items }: ArtistBarProps) { 
+export function ArtistBar({ items }: ArtistBarProps) {
   const marqueeVariants = {
     animate: {
       x: [0, -1000],
       transition: {
         x: {
           repeat: Number.POSITIVE_INFINITY,
-          repeatType: "loop",
+          repeatType: 'loop',
           duration: 20,
-          ease: "linear",
+          ease: 'linear',
         },
       },
     },
   }
 
-  const allItems = items.length > 0 ? [...items, ...items] : [];
+  const allItems = items.length > 0 ? [...items, ...items] : []
 
   if (items.length === 0) {
-    return null; 
+    return null
   }
 
   return (
@@ -36,7 +36,9 @@ export function ArtistBar({ items }: ArtistBarProps) {
               {item}
             </span>
             {index !== allItems.length - 1 && (
-              <span className="inline-block text-black mx-1 sm:mx-2 align-middle relative top-[-2px]">•</span>
+              <span className="inline-block text-black mx-1 sm:mx-2 align-middle relative top-[-2px]">
+                •
+              </span>
             )}
           </React.Fragment>
         ))}

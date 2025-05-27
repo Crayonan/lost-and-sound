@@ -1,13 +1,13 @@
-import "./css/globals.css";
-import { ppEditorialNewUltralightItalic, inter } from "./fonts";
-import type { ReactNode } from "react";
-import { ThemeProvider } from "@/app/theme-provider";
+import './css/globals.css'
+import { ppEditorialNewUltralightItalic, inter } from './fonts'
+import type { ReactNode } from 'react'
+import { ThemeProvider } from '@/app/theme-provider'
 
 export const metadata = {
-  title: "Lost and Sound",
+  title: 'Lost and Sound',
   description:
-    "Lost and Sound is a festival where rhythm meets nature, and music becomes a journey. Dive into a world of immersive electronic beats, creative expression, and unforgettable experiences.",
-};
+    'Lost and Sound is a festival where rhythm meets nature, and music becomes a journey. Dive into a world of immersive electronic beats, creative expression, and unforgettable experiences.',
+}
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -26,5 +26,5 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }

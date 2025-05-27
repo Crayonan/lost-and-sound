@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion'
 
 export default function Loader() {
   return (
@@ -10,16 +10,16 @@ export default function Loader() {
           animate={{
             scaleY: [0.5, 1.5, 0.5],
             scaleX: [1, 0.8, 1],
-            translateY: ["0%", "-15%", "0%"],
+            translateY: ['0%', '-15%', '0%'],
           }}
           transition={{
             duration: 1,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: 'easeInOut',
             delay: index * 0.1,
           }}
         />
       ))}
     </div>
-  );
+  )
 }

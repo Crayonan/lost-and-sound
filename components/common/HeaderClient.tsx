@@ -1,22 +1,22 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { useT } from "@/hooks/useT";
-import { Ticket } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { MobileNav } from "./MobileNav";
-import { NAV_LINKS } from "@/config/navLinks";
-import { LocaleSwitcher } from "@/components/common/LocaleSwitcher";
-import { useParams } from "next/navigation";
+import Link from 'next/link'
+import { useT } from '@/hooks/useT'
+import { Ticket } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { MobileNav } from './MobileNav'
+import { NAV_LINKS } from '@/config/navLinks'
+import { LocaleSwitcher } from '@/components/common/LocaleSwitcher'
+import { useParams } from 'next/navigation'
 
 export default function HeaderClient() {
-  const t = useT();
-  const { locale } = useParams();
+  const t = useT()
+  const { locale } = useParams()
 
   const localizedLinks = NAV_LINKS.map(link => ({
     ...link,
     url: `/${locale}/${link.slug}`,
-  }));
+  }))
 
   return (
     <header className="sticky top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-purple-900/30">
@@ -65,5 +65,5 @@ export default function HeaderClient() {
         </div>
       </div>
     </header>
-  );
+  )
 }

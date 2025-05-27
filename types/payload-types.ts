@@ -59,98 +59,100 @@ export type SupportedTimezones =
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
   | 'Pacific/Auckland'
-  | 'Pacific/Fiji';
+  | 'Pacific/Fiji'
 
 export interface Config {
   auth: {
-    users: UserAuthOperations;
-  };
-  blocks: {};
+    users: UserAuthOperations
+  }
+  blocks: {}
   collections: {
-    users: User;
-    media: Media;
-    artists: Artist;
-    'gallery-images': GalleryImage;
-    categories: Category;
-    'news-articles': NewsArticle;
-    'faq-items': FaqItem;
-    pages: Page;
-    'instagram-posts': InstagramPost;
-    'fetch-logs': FetchLog;
-    'payload-locked-documents': PayloadLockedDocument;
-    'payload-preferences': PayloadPreference;
-    'payload-migrations': PayloadMigration;
-  };
-  collectionsJoins: {};
+    users: User
+    media: Media
+    artists: Artist
+    'gallery-images': GalleryImage
+    categories: Category
+    'news-articles': NewsArticle
+    'faq-items': FaqItem
+    pages: Page
+    'instagram-posts': InstagramPost
+    'fetch-logs': FetchLog
+    'payload-locked-documents': PayloadLockedDocument
+    'payload-preferences': PayloadPreference
+    'payload-migrations': PayloadMigration
+  }
+  collectionsJoins: {}
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
-    artists: ArtistsSelect<false> | ArtistsSelect<true>;
-    'gallery-images': GalleryImagesSelect<false> | GalleryImagesSelect<true>;
-    categories: CategoriesSelect<false> | CategoriesSelect<true>;
-    'news-articles': NewsArticlesSelect<false> | NewsArticlesSelect<true>;
-    'faq-items': FaqItemsSelect<false> | FaqItemsSelect<true>;
-    pages: PagesSelect<false> | PagesSelect<true>;
-    'instagram-posts': InstagramPostsSelect<false> | InstagramPostsSelect<true>;
-    'fetch-logs': FetchLogsSelect<false> | FetchLogsSelect<true>;
-    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
-    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
-    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
-  };
+    users: UsersSelect<false> | UsersSelect<true>
+    media: MediaSelect<false> | MediaSelect<true>
+    artists: ArtistsSelect<false> | ArtistsSelect<true>
+    'gallery-images': GalleryImagesSelect<false> | GalleryImagesSelect<true>
+    categories: CategoriesSelect<false> | CategoriesSelect<true>
+    'news-articles': NewsArticlesSelect<false> | NewsArticlesSelect<true>
+    'faq-items': FaqItemsSelect<false> | FaqItemsSelect<true>
+    pages: PagesSelect<false> | PagesSelect<true>
+    'instagram-posts': InstagramPostsSelect<false> | InstagramPostsSelect<true>
+    'fetch-logs': FetchLogsSelect<false> | FetchLogsSelect<true>
+    'payload-locked-documents':
+      | PayloadLockedDocumentsSelect<false>
+      | PayloadLockedDocumentsSelect<true>
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>
+  }
   db: {
-    defaultIDType: number;
-  };
+    defaultIDType: number
+  }
   globals: {
-    header: Header;
-    footer: Footer;
-  };
+    header: Header
+    footer: Footer
+  }
   globalsSelect: {
-    header: HeaderSelect<false> | HeaderSelect<true>;
-    footer: FooterSelect<false> | FooterSelect<true>;
-  };
-  locale: null;
+    header: HeaderSelect<false> | HeaderSelect<true>
+    footer: FooterSelect<false> | FooterSelect<true>
+  }
+  locale: null
   user: User & {
-    collection: 'users';
-  };
+    collection: 'users'
+  }
   jobs: {
-    tasks: unknown;
-    workflows: unknown;
-  };
+    tasks: unknown
+    workflows: unknown
+  }
 }
 export interface UserAuthOperations {
   forgotPassword: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   login: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   registerFirstUser: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   unlock: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
+  id: number
+  updatedAt: string
+  createdAt: string
+  email: string
+  resetPasswordToken?: string | null
+  resetPasswordExpiration?: string | null
+  salt?: string | null
+  hash?: string | null
+  loginAttempts?: number | null
+  lockUntil?: string | null
+  password?: string | null
 }
 /**
  * Upload images and videos here.
@@ -159,180 +161,180 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: number;
-  alt: string;
-  category?: ('artists' | 'gallery' | 'news' | 'faq' | 'instagram') | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
+  id: number
+  alt: string
+  category?: ('artists' | 'gallery' | 'news' | 'faq' | 'instagram') | null
+  updatedAt: string
+  createdAt: string
+  url?: string | null
+  thumbnailURL?: string | null
+  filename?: string | null
+  mimeType?: string | null
+  filesize?: number | null
+  width?: number | null
+  height?: number | null
+  focalX?: number | null
+  focalY?: number | null
   sizes?: {
     thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
+      url?: string | null
+      width?: number | null
+      height?: number | null
+      mimeType?: string | null
+      filesize?: number | null
+      filename?: string | null
+    }
     'artist-4x3'?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
+      url?: string | null
+      width?: number | null
+      height?: number | null
+      mimeType?: string | null
+      filesize?: number | null
+      filename?: string | null
+    }
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "artists".
  */
 export interface Artist {
-  id: number;
-  name: string;
-  day?: ('friday' | 'saturday' | 'sunday') | null;
-  time?: string | null;
-  endTime?: string | null;
-  location?: ('main-stage' | 'outside-stage' | 'tent-area') | null;
+  id: number
+  name: string
+  day?: ('friday' | 'saturday' | 'sunday') | null
+  time?: string | null
+  endTime?: string | null
+  location?: ('main-stage' | 'outside-stage' | 'tent-area') | null
   bio?: {
     root: {
-      type: string;
+      type: string
       children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  image?: (number | null) | Media;
+        type: string
+        version: number
+        [k: string]: unknown
+      }[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  } | null
+  image?: (number | null) | Media
   socialLinks?:
     | {
-        platform: 'instagram' | 'twitter' | 'facebook' | 'spotify' | 'soundcloud';
-        url: string;
-        id?: string | null;
+        platform: 'instagram' | 'twitter' | 'facebook' | 'spotify' | 'soundcloud'
+        url: string
+        id?: string | null
       }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "gallery-images".
  */
 export interface GalleryImage {
-  id: number;
-  image: number | Media;
-  label: string;
+  id: number
+  image: number | Media
+  label: string
   /**
    * Lower numbers appear first.
    */
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
+  order?: number | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
 export interface Category {
-  id: number;
-  name: string;
-  slug?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  id: number
+  name: string
+  slug?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news-articles".
  */
 export interface NewsArticle {
-  id: number;
-  title: string;
-  slug?: string | null;
-  coverImage: number | Media;
-  excerpt?: string | null;
-  publishedDate: string;
-  category?: (number | null) | Category;
+  id: number
+  title: string
+  slug?: string | null
+  coverImage: number | Media
+  excerpt?: string | null
+  publishedDate: string
+  category?: (number | null) | Category
   content: {
     root: {
-      type: string;
+      type: string
       children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
+        type: string
+        version: number
+        [k: string]: unknown
+      }[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  }
+  updatedAt: string
+  createdAt: string
+  _status?: ('draft' | 'published') | null
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faq-items".
  */
 export interface FaqItem {
-  id: number;
-  question: string;
+  id: number
+  question: string
   answer: {
     root: {
-      type: string;
+      type: string
       children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
+        type: string
+        version: number
+        [k: string]: unknown
+      }[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  }
   /**
    * Lower numbers appear first.
    */
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
+  order?: number | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
 export interface Page {
-  id: number;
-  title: string;
-  slug?: string | null;
+  id: number
+  title: string
+  slug?: string | null
   hero?: {
-    type?: ('videoBackground' | 'imageBackground' | 'none') | null;
-    heading?: string | null;
-    subheading?: string | null;
-    videoUrl?: string | null;
-    backgroundImage?: (number | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
+    type?: ('videoBackground' | 'imageBackground' | 'none') | null
+    heading?: string | null
+    subheading?: string | null
+    videoUrl?: string | null
+    backgroundImage?: (number | null) | Media
+  }
+  updatedAt: string
+  createdAt: string
+  _status?: ('draft' | 'published') | null
 }
 /**
  * Fetched Instagram posts. Use the "Fetch Instagram Posts" action above the list to fetch new posts.
@@ -341,20 +343,20 @@ export interface Page {
  * via the `definition` "instagram-posts".
  */
 export interface InstagramPost {
-  id: number;
-  instagramPostId?: string | null;
-  shortcode?: string | null;
-  ownerUsername?: string | null;
-  originalImageUrl?: string | null;
-  localImage?: (number | null) | Media;
-  originalVideoUrl?: string | null;
-  localVideo?: (number | null) | Media;
-  caption?: string | null;
-  postDate?: string | null;
-  likesCount?: number | null;
-  commentsCount?: number | null;
-  updatedAt: string;
-  createdAt: string;
+  id: number
+  instagramPostId?: string | null
+  shortcode?: string | null
+  ownerUsername?: string | null
+  originalImageUrl?: string | null
+  localImage?: (number | null) | Media
+  originalVideoUrl?: string | null
+  localVideo?: (number | null) | Media
+  caption?: string | null
+  postDate?: string | null
+  likesCount?: number | null
+  commentsCount?: number | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Logs of Instagram fetch attempts.
@@ -363,418 +365,418 @@ export interface InstagramPost {
  * via the `definition` "fetch-logs".
  */
 export interface FetchLog {
-  id: number;
-  user: number | User;
-  date: string;
-  instagramUsername: string;
-  status: 'success' | 'failed' | 'rate_limited_user';
-  message?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  id: number
+  user: number | User
+  date: string
+  instagramUsername: string
+  status: 'success' | 'failed' | 'rate_limited_user'
+  message?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
+  id: number
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
+        relationTo: 'users'
+        value: number | User
       } | null)
     | ({
-        relationTo: 'media';
-        value: number | Media;
+        relationTo: 'media'
+        value: number | Media
       } | null)
     | ({
-        relationTo: 'artists';
-        value: number | Artist;
+        relationTo: 'artists'
+        value: number | Artist
       } | null)
     | ({
-        relationTo: 'gallery-images';
-        value: number | GalleryImage;
+        relationTo: 'gallery-images'
+        value: number | GalleryImage
       } | null)
     | ({
-        relationTo: 'categories';
-        value: number | Category;
+        relationTo: 'categories'
+        value: number | Category
       } | null)
     | ({
-        relationTo: 'news-articles';
-        value: number | NewsArticle;
+        relationTo: 'news-articles'
+        value: number | NewsArticle
       } | null)
     | ({
-        relationTo: 'faq-items';
-        value: number | FaqItem;
+        relationTo: 'faq-items'
+        value: number | FaqItem
       } | null)
     | ({
-        relationTo: 'pages';
-        value: number | Page;
+        relationTo: 'pages'
+        value: number | Page
       } | null)
     | ({
-        relationTo: 'instagram-posts';
-        value: number | InstagramPost;
+        relationTo: 'instagram-posts'
+        value: number | InstagramPost
       } | null)
     | ({
-        relationTo: 'fetch-logs';
-        value: number | FetchLog;
-      } | null);
-  globalSlug?: string | null;
+        relationTo: 'fetch-logs'
+        value: number | FetchLog
+      } | null)
+  globalSlug?: string | null
   user: {
-    relationTo: 'users';
-    value: number | User;
-  };
-  updatedAt: string;
-  createdAt: string;
+    relationTo: 'users'
+    value: number | User
+  }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
+  id: number
   user: {
-    relationTo: 'users';
-    value: number | User;
-  };
-  key?: string | null;
+    relationTo: 'users'
+    value: number | User
+  }
+  key?: string | null
   value?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
-  name?: string | null;
-  batch?: number | null;
-  updatedAt: string;
-  createdAt: string;
+  id: number
+  name?: string | null
+  batch?: number | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
+  updatedAt?: T
+  createdAt?: T
+  email?: T
+  resetPasswordToken?: T
+  resetPasswordExpiration?: T
+  salt?: T
+  hash?: T
+  loginAttempts?: T
+  lockUntil?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
-  category?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
+  alt?: T
+  category?: T
+  updatedAt?: T
+  createdAt?: T
+  url?: T
+  thumbnailURL?: T
+  filename?: T
+  mimeType?: T
+  filesize?: T
+  width?: T
+  height?: T
+  focalX?: T
+  focalY?: T
   sizes?:
     | T
     | {
         thumbnail?:
           | T
           | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
+              url?: T
+              width?: T
+              height?: T
+              mimeType?: T
+              filesize?: T
+              filename?: T
+            }
         'artist-4x3'?:
           | T
           | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-      };
+              url?: T
+              width?: T
+              height?: T
+              mimeType?: T
+              filesize?: T
+              filename?: T
+            }
+      }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "artists_select".
  */
 export interface ArtistsSelect<T extends boolean = true> {
-  name?: T;
-  day?: T;
-  time?: T;
-  endTime?: T;
-  location?: T;
-  bio?: T;
-  image?: T;
+  name?: T
+  day?: T
+  time?: T
+  endTime?: T
+  location?: T
+  bio?: T
+  image?: T
   socialLinks?:
     | T
     | {
-        platform?: T;
-        url?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
+        platform?: T
+        url?: T
+        id?: T
+      }
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "gallery-images_select".
  */
 export interface GalleryImagesSelect<T extends boolean = true> {
-  image?: T;
-  label?: T;
-  order?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  image?: T
+  label?: T
+  order?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories_select".
  */
 export interface CategoriesSelect<T extends boolean = true> {
-  name?: T;
-  slug?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  slug?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news-articles_select".
  */
 export interface NewsArticlesSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  coverImage?: T;
-  excerpt?: T;
-  publishedDate?: T;
-  category?: T;
-  content?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
+  title?: T
+  slug?: T
+  coverImage?: T
+  excerpt?: T
+  publishedDate?: T
+  category?: T
+  content?: T
+  updatedAt?: T
+  createdAt?: T
+  _status?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faq-items_select".
  */
 export interface FaqItemsSelect<T extends boolean = true> {
-  question?: T;
-  answer?: T;
-  order?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  question?: T
+  answer?: T
+  order?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
+  title?: T
+  slug?: T
   hero?:
     | T
     | {
-        type?: T;
-        heading?: T;
-        subheading?: T;
-        videoUrl?: T;
-        backgroundImage?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
+        type?: T
+        heading?: T
+        subheading?: T
+        videoUrl?: T
+        backgroundImage?: T
+      }
+  updatedAt?: T
+  createdAt?: T
+  _status?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "instagram-posts_select".
  */
 export interface InstagramPostsSelect<T extends boolean = true> {
-  instagramPostId?: T;
-  shortcode?: T;
-  ownerUsername?: T;
-  originalImageUrl?: T;
-  localImage?: T;
-  originalVideoUrl?: T;
-  localVideo?: T;
-  caption?: T;
-  postDate?: T;
-  likesCount?: T;
-  commentsCount?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  instagramPostId?: T
+  shortcode?: T
+  ownerUsername?: T
+  originalImageUrl?: T
+  localImage?: T
+  originalVideoUrl?: T
+  localVideo?: T
+  caption?: T
+  postDate?: T
+  likesCount?: T
+  commentsCount?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "fetch-logs_select".
  */
 export interface FetchLogsSelect<T extends boolean = true> {
-  user?: T;
-  date?: T;
-  instagramUsername?: T;
-  status?: T;
-  message?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  user?: T
+  date?: T
+  instagramUsername?: T
+  status?: T
+  message?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
-  document?: T;
-  globalSlug?: T;
-  user?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  document?: T
+  globalSlug?: T
+  user?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences_select".
  */
 export interface PayloadPreferencesSelect<T extends boolean = true> {
-  user?: T;
-  key?: T;
-  value?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  user?: T
+  key?: T
+  value?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations_select".
  */
 export interface PayloadMigrationsSelect<T extends boolean = true> {
-  name?: T;
-  batch?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  batch?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header".
  */
 export interface Header {
-  id: number;
-  logo?: (number | null) | Media;
+  id: number
+  logo?: (number | null) | Media
   navItems?:
     | {
-        link: HeaderNavItemLink;
-        id?: string | null;
+        link: HeaderNavItemLink
+        id?: string | null
       }[]
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
+    | null
+  updatedAt?: string | null
+  createdAt?: string | null
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "HeaderNavItemLink".
  */
 export interface HeaderNavItemLink {
-  label: string;
-  type?: ('reference' | 'custom') | null;
-  reference?: (number | null) | Page;
-  url?: string | null;
-  newTab?: boolean | null;
+  label: string
+  type?: ('reference' | 'custom') | null
+  reference?: (number | null) | Page
+  url?: string | null
+  newTab?: boolean | null
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "footer".
  */
 export interface Footer {
-  id: number;
+  id: number
   quickLinks?:
     | {
-        link: FooterQuickLink;
-        id?: string | null;
+        link: FooterQuickLink
+        id?: string | null
       }[]
-    | null;
+    | null
   contactInfo?: {
     root: {
-      type: string;
+      type: string
       children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+        type: string
+        version: number
+        [k: string]: unknown
+      }[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  } | null
   socialMediaLinks?:
     | {
-        platform: 'instagram' | 'twitter' | 'facebook';
-        url: string;
-        id?: string | null;
+        platform: 'instagram' | 'twitter' | 'facebook'
+        url: string
+        id?: string | null
       }[]
-    | null;
-  copyrightText?: string | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
+    | null
+  copyrightText?: string | null
+  updatedAt?: string | null
+  createdAt?: string | null
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "FooterQuickLink".
  */
 export interface FooterQuickLink {
-  label: string;
-  type?: ('reference' | 'custom') | null;
-  reference?: (number | null) | Page;
-  url?: string | null;
-  newTab?: boolean | null;
+  label: string
+  type?: ('reference' | 'custom') | null
+  reference?: (number | null) | Page
+  url?: string | null
+  newTab?: boolean | null
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
-  logo?: T;
+  logo?: T
   navItems?:
     | T
     | {
-        link?: T | HeaderNavItemLinkSelect<T>;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
+        link?: T | HeaderNavItemLinkSelect<T>
+        id?: T
+      }
+  updatedAt?: T
+  createdAt?: T
+  globalType?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "HeaderNavItemLink_select".
  */
 export interface HeaderNavItemLinkSelect<T extends boolean = true> {
-  label?: T;
-  type?: T;
-  reference?: T;
-  url?: T;
-  newTab?: T;
+  label?: T
+  type?: T
+  reference?: T
+  url?: T
+  newTab?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -784,37 +786,37 @@ export interface FooterSelect<T extends boolean = true> {
   quickLinks?:
     | T
     | {
-        link?: T | FooterQuickLinkSelect<T>;
-        id?: T;
-      };
-  contactInfo?: T;
+        link?: T | FooterQuickLinkSelect<T>
+        id?: T
+      }
+  contactInfo?: T
   socialMediaLinks?:
     | T
     | {
-        platform?: T;
-        url?: T;
-        id?: T;
-      };
-  copyrightText?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
+        platform?: T
+        url?: T
+        id?: T
+      }
+  copyrightText?: T
+  updatedAt?: T
+  createdAt?: T
+  globalType?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "FooterQuickLink_select".
  */
 export interface FooterQuickLinkSelect<T extends boolean = true> {
-  label?: T;
-  type?: T;
-  reference?: T;
-  url?: T;
-  newTab?: T;
+  label?: T
+  type?: T
+  reference?: T
+  url?: T
+  newTab?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {
-  [k: string]: unknown;
+  [k: string]: unknown
 }

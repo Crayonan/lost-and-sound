@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "PPEditorialNew-UltralightItalic";
-  src: url('public/fonts/lostsoundfont.woff2') format("truetype");
+  font-family: 'PPEditorialNew-UltralightItalic';
+  src: url('public/fonts/lostsoundfont.woff2') format('truetype');
   font-weight: 200;
   font-style: italic;
   font-display: swap;
@@ -28,7 +28,7 @@
   h4,
   h5,
   h6 {
-    font-family: "PPEditorialNew-UltralightItalic", sans-serif;
+    font-family: 'PPEditorialNew-UltralightItalic', sans-serif;
     font-weight: 200;
     font-style: italic;
     letter-spacing: -0.025em;
@@ -89,9 +89,6 @@
   }
 }
 
-
-
-/* Disable animations on mobile for better performance */
 @media (max-width: 768px) {
   .disable-animation {
     transition: none !important;
@@ -99,7 +96,6 @@
   }
 }
 
-/* Ensure content doesn't overflow on small screens */
 @media (max-width: 768px) {
   .overflow-fix {
     overflow: visible !important;
@@ -107,9 +103,6 @@
   }
 }
 
-/* Add these responsive utility classes to the end of the file */
-
-/* Responsive utilities for vertical text */
 @media (max-width: 640px) {
   .vertical-festival-text {
     display: flex;
@@ -123,7 +116,6 @@
   }
 }
 
-/* Mobile menu styles */
 .mobile-menu-overlay {
   position: fixed;
   top: 0;
@@ -135,7 +127,9 @@
   z-index: 40;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
   transform: translateY(-100%);
 }
 
@@ -145,7 +139,6 @@
   transform: translateY(0);
 }
 
-/* Improved responsive spacing */
 @media (max-width: 375px) {
   .container {
     padding-left: 0.75rem;
@@ -181,7 +174,6 @@
   }
 }
 
-/* Ensure minimum tap target size for mobile */
 @media (max-width: 640px) {
   button,
   a {
@@ -192,7 +184,6 @@
   }
 }
 
-/* Adjust spacing for mobile */
 @media (max-width: 640px) {
   .py-20 {
     padding-top: 3rem;
@@ -204,7 +195,6 @@
   }
 }
 
-/* Ensure content takes up full space */
 @media (max-width: 768px) {
   .full-height-mobile {
     height: auto !important;
@@ -220,13 +210,11 @@
     flex-shrink: 0;
   }
 
-  /* Adjust accordion for mobile */
   .accordion-mobile-fit .accordion-content {
     max-height: none !important;
   }
 }
 
-/* Adjust content spacing on mobile */
 @media (max-width: 640px) {
   .mobile-content-spacing > * + * {
     margin-top: 0.75rem;
@@ -241,7 +229,6 @@
   }
 }
 
-/* Ensure FAQ section displays properly on mobile */
 @media (max-width: 768px) {
   .faq-section-mobile {
     height: auto !important;
@@ -263,7 +250,6 @@
   }
 }
 
-/* Adjust content heights for better mobile display */
 @media (max-width: 640px) {
   .instagram-post-mobile,
   .news-item-mobile {

@@ -170,7 +170,7 @@ img {
   background-repeat: no-repeat;
   background-size: contain;
   block-size: 35%;
-  content: "";
+  content: '';
   inline-size: 35%;
   pointer-events: none;
   position: absolute;
@@ -206,7 +206,7 @@ img {
 
 .act__image::before {
   background: linear-gradient(180deg, #0000 50%, #0009);
-  content: "";
+  content: '';
   inset: 0;
   pointer-events: none;
   position: absolute;

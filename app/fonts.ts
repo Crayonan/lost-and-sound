@@ -1,21 +1,20 @@
-import { Inter } from "next/font/google"
-import type { NextFontWithVariable } from "next/dist/compiled/@next/font"
-import type { NextFont } from "next/font"
+import { Inter } from 'next/font/google'
+import type { NextFontWithVariable } from 'next/dist/compiled/@next/font'
 
-const ppEditorialNewUltralightItalic: NextFontWithVariable & NextFont = {
-  className: "font-pp-editorial",
+const ppEditorialNewUltralightItalic: NextFontWithVariable = {
+  className: 'font-pp-editorial',
   style: {
-    fontFamily: "PPEditorialNew-UltralightItalic",
-    fontWeight: "200",
-    fontStyle: "italic",
+    fontFamily: 'PPEditorialNew-UltralightItalic',
+    fontStyle: 'italic',
+    fontWeight: 100,
   },
-  variable: "--font-pp-editorial",
+  variable: '--font-pp-editorial',
 }
 
 const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
 })
 
 export { ppEditorialNewUltralightItalic, inter }
