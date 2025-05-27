@@ -1,7 +1,7 @@
 import en from '@/locales/en.json'
 import de from '@/locales/de.json'
 import { getPageBySlug, getArtists, getGalleryImages } from '@/lib/payloadAPI'
-import { ArtistBar } from '@/components/sections/ArtistBar.client'
+import { ArtistBar } from '@/components/artists/ArtistBar'
 import GalleryFrame from '@/components/gallery/GalleryFrame.client'
 import InfoSection from '@/components/sections/InfoSection'
 import Countdown from '@/components/sections/Countdown'

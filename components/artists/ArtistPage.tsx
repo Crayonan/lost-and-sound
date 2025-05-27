@@ -1,11 +1,11 @@
 'use client'
 
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
-import {Button} from '@/components/ui/button'
-import ArtistCard, {type ArtistCardProps} from './ArtistCard'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import ArtistCard, { type ArtistCardProps } from './ArtistCard'
 import ArtistModal from './ArtistModal'
-import {getArtists} from '@/lib/payloadAPI'
-import type {Artist as PayloadArtist, Media as PayloadMedia} from '@/types/payload-types'
+import { getArtists } from '@/lib/payloadAPI'
+import type { Artist as PayloadArtist, Media as PayloadMedia } from '@/types/payload-types'
 import './artists-page.css'
 
 const PAYLOAD_PUBLIC_URL = process.env.NEXT_PUBLIC_PAYLOAD_URL || 'http://localhost:3000'
@@ -129,7 +129,7 @@ export default function ArtistPage({ title = 'LINE-UP' }: ArtistPageProps) {
       case 'A-Z':
         return currentArtists.sort((a, b) => a.name.localeCompare(b.name))
       case 'ZA':
-        return currentArtists.sort((a, b) => b.name.localeCompare(a.name))
+        return currentArtists.filter(artist => artist.day === 'saturday')
       case 'VR':
         return currentArtists.filter(artist => artist.day === 'friday')
       case 'ZO':
@@ -143,12 +143,7 @@ export default function ArtistPage({ title = 'LINE-UP' }: ArtistPageProps) {
     <Button
       variant={activeFilter === filterType ? 'secondary' : 'outline'}
       className={`
-        ${activeFilter === filterType
-          ? filterType === 'ZO'
-            ? 'bg-yellow-400 hover:bg-yellow-500'
-            : 'bg-purple-400 hover:bg-purple-500'
-          : 'bg-white hover:bg-gray-100'
-        } 
+        ${activeFilter === filterType ? 'bg-purple-400 hover:bg-purple-500' : 'bg-white hover:bg-gray-100'}
         text-black font-bold px-8
       `}
       onClick={() => setActiveFilter(filterType)}
@@ -158,11 +153,7 @@ export default function ArtistPage({ title = 'LINE-UP' }: ArtistPageProps) {
   )
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-black text-white">
-        Loading artists...
-      </div>
-    )
+    return <div className="min-h-screen flex items-center justify-center bg-black text-white"></div>
   }
 
   if (error) {
@@ -199,18 +190,14 @@ export default function ArtistPage({ title = 'LINE-UP' }: ArtistPageProps) {
 
             {filteredMappedArtists.length > 0 ? (
               <ol className="act-list">
-                {filteredMappedArtists.map(
-                  (
-                    artistProps
-                  ) => (
-                    <li key={artistProps.name} className="act-list__item">
-                      <ArtistCard
-                        {...artistProps}
-                        onClick={() => handleArtistCardClick(artistProps.name)}
-                      />
-                    </li>
-                  )
-                )}
+                {filteredMappedArtists.map(artistProps => (
+                  <li key={artistProps.name} className="act-list__item">
+                    <ArtistCard
+                      {...artistProps}
+                      onClick={() => handleArtistCardClick(artistProps.name)}
+                    />
+                  </li>
+                ))}
               </ol>
             ) : (
               <p className="text-center text-white text-xl">No artists found for this filter.</p>
