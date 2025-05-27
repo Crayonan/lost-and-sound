@@ -97,8 +97,24 @@ export async function getArtists(): Promise<Artist[]> {
   return data.docs || [];
 }
 
-export async function getGalleryImages(): Promise<GalleryImage[]> {
-  const data = await fetchAPI<CollectionResponse<GalleryImage>>(`/gallery-images?limit=9&sort=order&depth=1`, {}, ['gallery-images']);
+export async function getGalleryImages(): Promise<PayloadMedia[]> {
+  // Construct query parameters:
+  // - limit: 9
+  // - where[category][equals]=gallery  (Filter by category)
+  // - sort=-createdAt                 (Sort by newest first, adjust if needed)
+  // - depth=0                         (Media fields are top-level)
+  const params = new URLSearchParams({
+    limit: '9',
+    'where[category][equals]': 'gallery',
+    sort: '-createdAt', // Or 'createdAt' for oldest first, or remove for default sort
+    depth: '1',
+  });
+
+  const data = await fetchAPI<CollectionResponse<PayloadMedia>>(
+    `/media?${params.toString()}`, 
+    {}, // No special options needed here
+    ['media_gallery'] // Updated cache tag
+  );
   return data.docs || [];
 }
 

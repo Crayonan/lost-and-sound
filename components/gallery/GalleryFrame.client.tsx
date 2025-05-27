@@ -115,10 +115,10 @@ export default function GalleryFrame({ initialFrames }: GalleryFrameProps) {
                 width="100%"
                 height="100%"
                 className="absolute inset-0"
-                mediaSize={frame.mediaSize} 
-                showControls={false} 
+                // mediaSize={frame.mediaSize} 
+                // showControls={false} 
                 label={frame.label}
-                showFrame={showFrames}
+                // showFrame={showFrames}
                 isHovered={isCurrentlyHovered || isMobile} 
                 isMobile={isMobile}
               />

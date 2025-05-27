@@ -5,6 +5,7 @@ import de from "../../locales/de.json";
 import { LocaleProvider } from "@/components/LocaleProvider";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
+import DelayedRender from "@/components/common/DelayedRender";
 
 const allLocales = { en, de };
 
@@ -22,8 +23,10 @@ export default async function LocaleLayout({
   return (
     <LocaleProvider value={messages}>
       <Header />
-      <main className="flex-grow">{children}</main>
-      <Footer />
+      <DelayedRender>
+        <main className="flex-grow">{children}</main>
+        <Footer />
+      </DelayedRender>
     </LocaleProvider>
   );
 }

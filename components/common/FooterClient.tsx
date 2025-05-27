@@ -5,11 +5,12 @@ import Link from "next/link";
 import { useT } from "@/hooks/useT";
 import { ChevronDown, ChevronUp, Instagram, Twitter, Facebook } from "lucide-react";
 import { ppEditorialNewUltralightItalic } from "@/app/fonts";
-import type { Footer as FooterType } from "@/types/payload-types";
 import RichText from "@/components/common/RichText";
+import { NAV_LINKS } from "@/config/navLinks";
+import { useParams } from "next/navigation";
 
 interface FooterClientInteractionsProps {
-  footerData: FooterType;
+  footerData: any;
 }
 
 export function FooterClientInteractions({ footerData }: FooterClientInteractionsProps) {
@@ -17,6 +18,12 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const toggle = (section: string) =>
     setExpandedSection(prev => (prev === section ? null : section));
+
+  const { locale } = useParams();
+  const localizedLinks = NAV_LINKS.map(link => ({
+    ...link,
+    url: `/${locale}/${link.slug}`,
+  }));
 
   useEffect(() => {
     if (!expandedSection) return;
@@ -28,13 +35,13 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
     return () => clearTimeout(timer);
   }, [expandedSection]);
 
-  const quickLinks = footerData.quickLinks ?? [];
   const socialMediaLinks = footerData.socialMediaLinks ?? [];
   const contactInfo = footerData.contactInfo;
 
   return (
     <footer className="bg-black py-8 sm:py-10 md:py-12 border-t border-purple-900/30">
       <div className="container mx-auto px-4">
+
         {/* ========== MOBILE FOOTER ========== */}
         <div className="md:hidden">
           {/* Logo + Social */}
@@ -46,7 +53,7 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
               <p className="text-xs text-purple-200/70">{t.footer.tagline}</p>
             </div>
             <div className="flex gap-3">
-              {socialMediaLinks.map((link, i) => (
+              {socialMediaLinks.map((link: { id: any; url: any; platform: string; }, i: any) => (
                 <Link
                   key={link.id ?? i}
                   href={link.url || "#"}
@@ -77,17 +84,17 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
             <div
               className={`overflow-hidden transition-all duration-300 ease-in-out footer-section-links ${
                 expandedSection === "links"
-                  ? "max-h-40 opacity-100 pt-2 pb-1"
+                  ? "max-h-[999px] opacity-100 pt-2 pb-1"
                   : "max-h-0 opacity-0 pt-0 pb-0"
               }`}
             >
-              {quickLinks.map((item, i) => (
+              {localizedLinks.map((item, i) => (
                 <Link
-                  key={item.id ?? i}
-                  href={item.link.url || "#"}
+                  key={i}
+                  href={item.url}
                   className="block text-purple-200/70 hover:text-purple-400 transition-colors text-sm"
                 >
-                  {item.link.label}
+                  {item.label}
                 </Link>
               ))}
             </div>
@@ -110,7 +117,7 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
             <div
               className={`overflow-hidden transition-all duration-300 ease-in-out footer-section-contact ${
                 expandedSection === "contact"
-                  ? "max-h-40 opacity-100 pt-2 pb-1"
+                  ? "max-h-[999px] opacity-100 pt-2 pb-1"
                   : "max-h-0 opacity-0 pt-0 pb-0"
               }`}
             >
@@ -118,7 +125,6 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
             </div>
           </div>
 
-          {/* Copyright */}
           <div className="mt-4 pt-4 border-t border-purple-900/30 text-center text-purple-200/50">
             <p className="text-xs">{t.footer.copyright}</p>
           </div>
@@ -140,13 +146,13 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
               <div>
                 <h4 className="text-purple-400 font-semibold mb-4">{t.footer.quickLinksTitle}</h4>
                 <ul className="space-y-2">
-                  {quickLinks.map((item, i) => (
-                    <li key={item.id ?? i}>
+                  {localizedLinks.map((item, i) => (
+                    <li key={i}>
                       <Link
-                        href={item.link.url || "#"}
-                        className="text-purple-200/70 hover:text-purple-400 transition-colors"
+                        href={item.url}
+                        className="block text-purple-200/70 hover:text-purple-400 transition-colors"
                       >
-                        {item.link.label}
+                        {item.label}
                       </Link>
                     </li>
                   ))}
@@ -165,7 +171,7 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
               <div>
                 <h4 className="text-purple-400 font-semibold mb-4">{t.footer.followUsTitle}</h4>
                 <div className="flex flex-col sm:flex-row sm:items-center sm:gap-6 gap-4">
-                  {socialMediaLinks.map((link, i) => {
+                  {socialMediaLinks.map((link: { platform: string | any[]; id: any; url: any; }, i: any) => {
                     const Icon =
                       link.platform === "instagram"
                         ? Instagram
@@ -189,7 +195,6 @@ export function FooterClientInteractions({ footerData }: FooterClientInteraction
             </div>
           </div>
 
-          {/* Full-width copyright */}
           <div className="w-full mt-12 pt-8 border-t border-purple-900/30">
             <p className="text-center text-purple-200/50">{t.footer.copyright}</p>
           </div>

@@ -141,7 +141,6 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
-  role: 'admin' | 'user';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -162,6 +161,7 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
+  category?: ('artists' | 'gallery' | 'news' | 'faq' | 'instagram') | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -173,6 +173,24 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    'artist-4x3'?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -181,6 +199,10 @@ export interface Media {
 export interface Artist {
   id: number;
   name: string;
+  day?: ('friday' | 'saturday' | 'sunday') | null;
+  time?: string | null;
+  endTime?: string | null;
+  location?: ('main-stage' | 'outside-stage' | 'tent-area') | null;
   bio?: {
     root: {
       type: string;
@@ -444,7 +466,6 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -461,6 +482,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  category?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -472,6 +494,30 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        'artist-4x3'?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -479,6 +525,10 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface ArtistsSelect<T extends boolean = true> {
   name?: T;
+  day?: T;
+  time?: T;
+  endTime?: T;
+  location?: T;
   bio?: T;
   image?: T;
   socialLinks?:

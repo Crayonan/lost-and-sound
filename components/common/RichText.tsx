@@ -133,9 +133,9 @@ const serializeLexicalNodes = (nodes?: SerializedLexicalNode[]): React.ReactNode
     // Fallback wrapper
     if (isElementNode(node)) {
       return (
-        <div key={i}>
+        <span key={i}>
           {children}
-        </div>
+        </span>
       );
     }
 

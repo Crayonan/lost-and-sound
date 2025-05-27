@@ -1,64 +1,94 @@
-import en from "../../locales/en.json";
-import de from "../../locales/de.json";
+// src/app/[locale]/page.tsx (or your relevant HomePage path)
+
+import en from "@/locales/en.json";
+import de from "@/locales/de.json";
 import {
   getPageBySlug,
   getArtists,
-  getGalleryImages,
+  getGalleryImages, // This now returns PayloadMediaType[]
 } from "@/lib/payloadAPI";
 import { ArtistBar } from "@/components/sections/ArtistBar.client";
 import GalleryFrame from "@/components/gallery/GalleryFrame.client";
 import InfoSection from "@/components/sections/InfoSection";
 import Countdown from "@/components/sections/Countdown";
-import { ppEditorialNewUltralightItalic } from "../fonts";
+import { ppEditorialNewUltralightItalic } from "../fonts"; // Ensure this path is correct
 import type {
   Page as PageType,
-  Media as PayloadMediaType,
+  Media as PayloadMediaType, // This is the type from payload-types.ts
   Artist,
-  GalleryImage,
+  // GalleryImage type might no longer be needed here if getGalleryImages returns PayloadMediaType[]
 } from "@/types/payload-types";
 import Image from "next/image";
 
 const allLocales = { en, de };
+
+const PAYLOAD_PUBLIC_URL = process.env.NEXT_PUBLIC_PAYLOAD_URL || "http://localhost:3000";
 
 export default async function HomePage({
   params,
 }: {
   params: { locale: string };
 }) {
-  const { locale } = await params;
+  const { locale } = await params; // Removed await, params is directly available
   const t = allLocales[locale as "en" | "de"];
 
   const pageData: PageType | null = await getPageBySlug("home");
   const artistsData: Artist[] = await getArtists();
-  const galleryImagesData: GalleryImage[] = await getGalleryImages();
+  
+  // Correctly type galleryMediaItems based on the updated getGalleryImages function
+  const galleryMediaItems: PayloadMediaType[] = await getGalleryImages();
 
   if (!pageData) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <p>{t.home.welcomeMessage}</p>
+        {/* Consider a more specific message if t.home is not available */}
+        <p>{t?.home?.welcomeMessage || "Welcome to our site."}</p> 
       </div>
     );
   }
 
   const { hero } = pageData;
   const artistNames = artistsData.map((artist) => artist.name);
-  const galleryFrames = galleryImagesData.map((item, idx) => {
-    const img = item.image as PayloadMediaType;
+
+  // Map galleryMediaItems (PayloadMediaType[]) to galleryFrames (FrameData[])
+  const galleryFrames = galleryMediaItems.map((mediaItem, idx) => {
+    // mediaItem is now a PayloadMediaType object
+    let imageUrl = "/placeholder.svg";
+    if (mediaItem.url) {
+      imageUrl = mediaItem.url.startsWith('/') ? `${PAYLOAD_PUBLIC_URL}${mediaItem.url}` : mediaItem.url;
+    }
+
+    // Use mediaItem.alt for the label, provide a fallback if alt is empty
+    let descriptiveLabel = mediaItem.alt; // Media.alt is 'string', so it should exist
+    if (!descriptiveLabel || descriptiveLabel.trim() === "") {
+      descriptiveLabel = mediaItem.filename 
+        ? `View image: ${mediaItem.filename}` 
+        : `Gallery image ${mediaItem.id || idx + 1}`;
+    }
+    
     return {
-      id: item.id || String(idx + 1),
-      image: img?.url || "/placeholder.svg",
-      label: item.label,
+      id: mediaItem.id || String(idx + 1), // Use mediaItem.id from PayloadMediaType
+      image: imageUrl,
+      label: descriptiveLabel, // This will be passed to FrameItem's alt prop
+      // Your existing logic for grid positioning
       defaultPos: { x: (idx % 3) * 4, y: Math.floor(idx / 3) * 4, w: 4, h: 4 },
-      mediaSize: 1,
+      // These values seem to be placeholders; adjust if they have dynamic logic
+      mediaSize: 1, 
       borderThickness: 0,
       borderSize: 80,
-      isHovered: false,
+      isHovered: false, // This is correctly initialized in GalleryFrame.client.tsx
     };
   });
 
+  // Hero background image handling
   const heroBg = hero?.backgroundImage as PayloadMediaType | undefined;
-  const heroBgUrl = heroBg?.url;
-  const heroBgAlt = heroBg?.alt;
+  const heroBgUrl = heroBg?.url ? (heroBg.url.startsWith('/') ? `${PAYLOAD_PUBLIC_URL}${heroBg.url}` : heroBg.url) : undefined;
+  // Ensure alt text for hero image is also robust
+  let heroBgAlt = heroBg?.alt;
+  if (!heroBgAlt || heroBgAlt.trim() === "") {
+    heroBgAlt = "Hero background image"; // Fallback alt text for hero
+  }
+
 
   return (
     <>
@@ -78,14 +108,14 @@ export default async function HomePage({
         {hero?.type === "imageBackground" && heroBgUrl && (
           <Image
             src={heroBgUrl}
-            alt={heroBgAlt || "Hero background image"}
+            alt={heroBgAlt} // Using the ensured heroBgAlt
             fill
             className="object-cover video-focus"
             priority
           />
         )}
         <div className="container mx-auto px-4 h-full flex flex-col justify-end pb-20 relative z-20">
-          <h1 className="text-6xl lg:text-8xl font-bold text-white tracking-tight leading-none mb-6">
+          <h1 className="text-6xl lg:text-6xl font-bold text-white tracking-tight leading-none mb-6">
             <Countdown date={1755820800000} t={t} />
           </h1>
           {hero?.subheading && (
@@ -110,9 +140,9 @@ export default async function HomePage({
             <h2
               className={`${ppEditorialNewUltralightItalic.className} text-5xl lg:text-6xl font-light italic text-white tracking-tighter mb-12 text-center`}
             >
-              {t.home.festivalHighlights}
+              {t?.home?.festivalHighlights || "Festival Highlights"} {/* Added fallback for t.home.festivalHighlights */}
             </h2>
-            <div className="w-full h-[90vh]">
+            <div className="w-full h-[90vh]"> {/* Ensure this height is appropriate */}
               <GalleryFrame initialFrames={galleryFrames} />
             </div>
           </div>
