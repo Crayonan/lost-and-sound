@@ -10,10 +10,10 @@ import type {
 
 interface RichTextProps {
   content:
-    | SerializedEditorState
-    | { root?: { children?: SerializedLexicalNode[] } }
-    | null
-    | undefined
+  | SerializedEditorState
+  | { root?: { children?: SerializedLexicalNode[] } }
+  | null
+  | undefined
   className?: string
 }
 
@@ -67,16 +67,17 @@ const serializeLexicalNodes = (nodes?: SerializedLexicalNode[]): React.ReactNode
       if (fmt & 2) elem = <em key={`i-${i}`}>{elem}</em>
       if (fmt & 4)
         elem = (
-          <span key={`u-${i}`} style={{ textDecoration: 'underline' }}>
+          <span key={`s-${i}`} style={{ textDecoration: 'line-through' }}>
             {elem}
           </span>
         )
       if (fmt & 8)
         elem = (
-          <span key={`s-${i}`} style={{ textDecoration: 'line-through' }}>
+          <span key={`u-${i}`} style={{ textDecoration: 'underline' }}>
             {elem}
           </span>
         )
+
       if (fmt & 16) elem = <code key={`c-${i}`}>{elem}</code>
       if (fmt & 32) elem = <sub key={`sub-${i}`}>{elem}</sub>
       if (fmt & 64) elem = <sup key={`sup-${i}`}>{elem}</sup>
