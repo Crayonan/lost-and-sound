@@ -1,9 +1,7 @@
 import type {
   Page,
   Artist,
-  GalleryImage,
   Media as PayloadMedia,
-  Header as HeaderType,
   Footer as FooterType,
   NewsArticle,
   FaqItem,
@@ -13,7 +11,7 @@ import type {
 const PAYLOAD_API_URL = process.env.NEXT_PUBLIC_PAYLOAD_URL || 'http://localhost:3000'
 
 // --- Generic Fetch Function ---
-async function fetchAPI<T>(
+async function fetchAPI<T> (
   endpointPath: string,
   options: RequestInit = {},
   tags?: string[]
@@ -78,19 +76,6 @@ interface CollectionResponse<T> {
   nextPage: number | null
 }
 
-// --- Global Data ---
-// export async function getHeaderData(locale?: string): Promise<HeaderType | null> {
-//   const params = new URLSearchParams({ depth: '2' });
-//   if (locale) params.append('locale', locale);
-//   return fetchAPI<HeaderType>(`/globals/header?${params.toString()}`, {}, ['global_header']);
-// }
-
-export async function getFooterData(locale?: string): Promise<FooterType | null> {
-  const params = new URLSearchParams({ depth: '2' })
-  if (locale) params.append('locale', locale)
-  return fetchAPI<FooterType>(`/globals/footer?${params.toString()}`, {}, ['global_footer'])
-}
-
 export type PopulatedInstagramPost = Omit<InstagramPostPayload, 'localImage' | 'localVideo'> & {
   localImage?: PopulatedField<InstagramPostPayload['localImage']>
   localVideo?: PopulatedField<InstagramPostPayload['localVideo']>
@@ -98,8 +83,14 @@ export type PopulatedInstagramPost = Omit<InstagramPostPayload, 'localImage' | '
 
 // --- Global Data Fetchers ---
 
+export async function getFooterData (locale?: string): Promise<FooterType | null> {
+  const params = new URLSearchParams({ depth: '2' })
+  if (locale) params.append('locale', locale)
+  return fetchAPI<FooterType>(`/globals/footer?${params.toString()}`, {}, ['global_footer'])
+}
+
 // --- Collection Data Fetchers ---
-export async function getArtists(): Promise<Artist[]> {
+export async function getArtists (): Promise<Artist[]> {
   const data = await fetchAPI<CollectionResponse<Artist>>(
     `/artists?limit=30&sort=name&depth=1`,
     {},
@@ -108,12 +99,7 @@ export async function getArtists(): Promise<Artist[]> {
   return data.docs || []
 }
 
-export async function getGalleryImages(): Promise<PayloadMedia[]> {
-  // Construct query parameters:
-  // - limit: 9
-  // - where[category][equals]=gallery  (Filter by category)
-  // - sort=-createdAt                 (Sort by newest first, adjust if needed)
-  // - depth=0                         (Media fields are top-level)
+export async function getGalleryImages (): Promise<PayloadMedia[]> {
   const params = new URLSearchParams({
     limit: '9',
     'where[category][equals]': 'gallery',
@@ -129,7 +115,7 @@ export async function getGalleryImages(): Promise<PayloadMedia[]> {
   return data.docs || []
 }
 
-export async function getNewsArticles(limit: number = 4, locale?: string): Promise<NewsArticle[]> {
+export async function getNewsArticles (limit: number = 4, locale?: string): Promise<NewsArticle[]> {
   const params = new URLSearchParams({
     limit: limit.toString(),
     sort: '-publishedDate',
@@ -144,7 +130,7 @@ export async function getNewsArticles(limit: number = 4, locale?: string): Promi
   return data.docs || []
 }
 
-export async function getFaqItems(limit: number = 5, locale?: string): Promise<FaqItem[]> {
+export async function getFaqItems (limit: number = 5, locale?: string): Promise<FaqItem[]> {
   const params = new URLSearchParams({ limit: limit.toString(), sort: 'order', depth: '0' })
   if (locale) params.append('locale', locale)
   const data = await fetchAPI<CollectionResponse<FaqItem>>(`/faq-items?${params.toString()}`, {}, [
@@ -153,7 +139,7 @@ export async function getFaqItems(limit: number = 5, locale?: string): Promise<F
   return data.docs || []
 }
 
-export async function getPageBySlug(slug: string, locale?: string): Promise<Page | null> {
+export async function getPageBySlug (slug: string, locale?: string): Promise<Page | null> {
   const params = new URLSearchParams({ 'where[slug][equals]': slug, limit: '1', depth: '2' })
   if (locale) params.append('locale', locale)
   const data = await fetchAPI<CollectionResponse<Page>>(`/pages?${params.toString()}`, {}, [
@@ -162,7 +148,7 @@ export async function getPageBySlug(slug: string, locale?: string): Promise<Page
   return data.docs[0] || null
 }
 
-export async function getInstagramPostsFromPayload(
+export async function getInstagramPostsFromPayload (
   limit: number = 5
 ): Promise<PopulatedInstagramPost[]> {
   const queryParams = new URLSearchParams({
