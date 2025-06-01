@@ -1,8 +1,8 @@
-import type {ReactNode} from 'react'
-import {notFound} from 'next/navigation'
+import type { ReactNode } from 'react'
+import { notFound } from 'next/navigation'
 import en from '@/locales/en.json'
 import de from '@/locales/de.json'
-import {LocaleProvider} from '@/components/LocaleProvider'
+import { LocaleProvider } from '@/components/LocaleProvider'
 import Header from '@/components/common/Header'
 import Footer from '@/components/common/Footer'
 import DelayedRender from '@/components/common/DelayedRender'
@@ -24,7 +24,7 @@ export default async function LocaleLayout({
     <LocaleProvider value={messages}>
       <Header />
       <DelayedRender>
-        <main className="flex-grow">{children}</main>
+        {children}
         <Footer />
       </DelayedRender>
     </LocaleProvider>

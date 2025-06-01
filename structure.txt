@@ -1,0 +1,111 @@
+.
+├── app
+│   ├── api
+│   │   └── create-order
+│   ├── css
+│   │   ├── custom-slider.css
+│   │   └── globals.css
+│   ├── fonts.ts
+│   ├── layout.tsx
+│   ├── [locale]
+│   │   ├── layout.tsx
+│   │   ├── lineup
+│   │   │   ├── globals.css
+│   │   │   └── page.tsx
+│   │   ├── page.tsx
+│   │   └── store
+│   │       ├── globals.css
+│   │       ├── layout.tsx
+│   │       ├── page.tsx
+│   │       └── [slug]
+│   │           └── page.tsx
+│   ├── page.tsx
+│   └── theme-provider.tsx
+├── components
+│   ├── artists
+│   │   ├── ArtistBar.tsx
+│   │   ├── ArtistCard.tsx
+│   │   ├── ArtistModal.tsx
+│   │   ├── ArtistPage.tsx
+│   │   └── artists-page.css
+│   ├── common
+│   │   ├── DelayedRender.tsx
+│   │   ├── FooterClient.tsx
+│   │   ├── Footer.tsx
+│   │   ├── HeaderClient.tsx
+│   │   ├── Header.tsx
+│   │   ├── LocaleSwitcher.tsx
+│   │   ├── MobileNav.tsx
+│   │   └── RichText.tsx
+│   ├── gallery
+│   │   ├── FrameItem.tsx
+│   │   └── GalleryFrame.client.tsx
+│   ├── LocaleProvider.tsx
+│   ├── sections
+│   │   ├── Countdown.tsx
+│   │   ├── InfoSectionTabs.tsx
+│   │   └── InfoSection.tsx
+│   ├── store
+│   │   ├── cart
+│   │   │   ├── CartSidebar.tsx
+│   │   │   ├── CartTrigger.tsx
+│   │   │   └── CheckoutButton.tsx
+│   │   ├── ProductDetails.tsx
+│   │   ├── ProductGallery.tsx
+│   │   └── ProductView.tsx
+│   └── ui
+│       └── *.tsx
+├── components.json
+├── config
+│   └── navLinks.ts
+├── hooks
+│   ├── use-mobile.tsx
+│   ├── use-toast.ts
+│   └── useT.ts
+├── lib
+│   ├── formatDateTime.ts
+│   ├── payloadAPI.ts
+│   ├── store
+│   │   ├── CartContext.tsx
+│   │   ├── checkout.tsx
+│   │   ├── data.ts
+│   │   └── productTransform.ts
+│   └── utils.ts
+├── locales
+│   ├── de.json
+│   └── en.json
+├── next.config.mjs
+├── next-env.d.ts
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.mjs
+├── public
+│   ├── fonts
+│   │   ├── kobuzan-cy-grotesk-grand-dark.otf
+│   │   ├── lostsoundfont-grotesk.woff2
+│   │   └── lostsoundfont.woff2
+│   ├── images
+│   │   ├── artist-border-left-2.png
+│   │   ├── artist-border-left.png
+│   │   ├── artist-border-right-2.png
+│   │   ├── artist-border-right.png
+│   │   ├── left-top-2.png
+│   │   ├── right-bottom.9598da7f.webp
+│   │   └── right-low-2.png
+│   ├── placeholder.jpg
+│   ├── placeholder-logo.png
+│   ├── placeholder-logo.svg
+│   ├── placeholder.svg
+│   ├── placeholder-user.jpg
+│   └── videos
+│       └── hero-video.mp4
+├── STRIPE_INTEGRATION_GUIDE.md
+├── structure.txt
+├── styles
+│   └── globals.css
+├── tailwind.config.ts
+├── tsconfig.json
+└── types
+    └── payload-types.ts
+
+27 directories, 131 files

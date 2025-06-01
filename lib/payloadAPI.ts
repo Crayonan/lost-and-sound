@@ -6,6 +6,7 @@ import type {
   NewsArticle,
   FaqItem,
   InstagramPost as InstagramPostPayload,
+  Product,
 } from '@/types/payload-types'
 
 const PAYLOAD_API_URL = process.env.NEXT_PUBLIC_PAYLOAD_URL || 'http://localhost:3000'
@@ -166,5 +167,61 @@ export async function getInstagramPostsFromPayload (
   } catch (error) {
     console.error('[Frontend Fetch] Error in getInstagramPostsFromPayload:', error)
     return []
+  }
+}
+
+// --- Product Data Fetchers ---
+export async function getProducts (): Promise<Product[]> {
+  const params = new URLSearchParams({
+    limit: '50',
+    sort: '-createdAt',
+    depth: '2',
+    draft: 'false',
+  })
+
+  try {
+    const data = await fetchAPI<CollectionResponse<Product>>(`/products?${params.toString()}`, {}, [
+      'products',
+    ])
+    return data.docs || []
+  } catch (error) {
+    console.error('Error fetching products:', error)
+    return []
+  }
+}
+
+export async function getProductById (id: string | number): Promise<Product | null> {
+  const params = new URLSearchParams({
+    depth: '2',
+    draft: 'false',
+  })
+
+  try {
+    const data = await fetchAPI<Product>(`/products/${id}?${params.toString()}`, {}, [
+      `product_${id}`,
+    ])
+    return data || null
+  } catch (error) {
+    console.error(`Error fetching product ${id}:`, error)
+    return null
+  }
+}
+
+export async function getProductBySlug (slug: string): Promise<Product | null> {
+  const params = new URLSearchParams({
+    'where[slug][equals]': slug,
+    limit: '1',
+    depth: '2',
+    draft: 'false',
+  })
+
+  try {
+    const data = await fetchAPI<CollectionResponse<Product>>(`/products?${params.toString()}`, {}, [
+      `product_slug_${slug}`,
+    ])
+    return data.docs[0] || null
+  } catch (error) {
+    console.error(`Error fetching product by slug ${slug}:`, error)
+    return null
   }
 }

@@ -70,13 +70,14 @@ export interface Config {
     users: User
     media: Media
     artists: Artist
-    'gallery-images': GalleryImage
     categories: Category
     'news-articles': NewsArticle
     'faq-items': FaqItem
     pages: Page
     'instagram-posts': InstagramPost
     'fetch-logs': FetchLog
+    products: Product
+    orders: Order
     'payload-locked-documents': PayloadLockedDocument
     'payload-preferences': PayloadPreference
     'payload-migrations': PayloadMigration
@@ -86,13 +87,14 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>
     media: MediaSelect<false> | MediaSelect<true>
     artists: ArtistsSelect<false> | ArtistsSelect<true>
-    'gallery-images': GalleryImagesSelect<false> | GalleryImagesSelect<true>
     categories: CategoriesSelect<false> | CategoriesSelect<true>
     'news-articles': NewsArticlesSelect<false> | NewsArticlesSelect<true>
     'faq-items': FaqItemsSelect<false> | FaqItemsSelect<true>
     pages: PagesSelect<false> | PagesSelect<true>
     'instagram-posts': InstagramPostsSelect<false> | InstagramPostsSelect<true>
     'fetch-logs': FetchLogsSelect<false> | FetchLogsSelect<true>
+    products: ProductsSelect<false> | ProductsSelect<true>
+    orders: OrdersSelect<false> | OrdersSelect<true>
     'payload-locked-documents':
       | PayloadLockedDocumentsSelect<false>
       | PayloadLockedDocumentsSelect<true>
@@ -105,10 +107,12 @@ export interface Config {
   globals: {
     header: Header
     footer: Footer
+    'stripe-management': StripeManagement
   }
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>
     footer: FooterSelect<false> | FooterSelect<true>
+    'stripe-management': StripeManagementSelect<false> | StripeManagementSelect<true>
   }
   locale: null
   user: User & {
@@ -163,7 +167,7 @@ export interface User {
 export interface Media {
   id: number
   alt: string
-  category?: ('artists' | 'gallery' | 'news' | 'faq' | 'instagram') | null
+  category?: ('artists' | 'gallery' | 'news' | 'faq' | 'instagram' | 'product') | null
   updatedAt: string
   createdAt: string
   url?: string | null
@@ -233,27 +237,11 @@ export interface Artist {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gallery-images".
- */
-export interface GalleryImage {
-  id: number
-  image: number | Media
-  label: string
-  /**
-   * Lower numbers appear first.
-   */
-  order?: number | null
-  updatedAt: string
-  createdAt: string
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
 export interface Category {
   id: number
   name: string
-  slug?: string | null
   updatedAt: string
   createdAt: string
 }
@@ -264,7 +252,6 @@ export interface Category {
 export interface NewsArticle {
   id: number
   title: string
-  slug?: string | null
   coverImage: number | Media
   excerpt?: string | null
   publishedDate: string
@@ -376,6 +363,56 @@ export interface FetchLog {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number
+  name: string
+  description?: string | null
+  /**
+   * Price in cents.
+   */
+  price: number
+  currency: 'usd' | 'eur'
+  productImage: number | Media
+  /**
+   * Leave blank for unlimited stock.
+   */
+  stock?: number | null
+  /**
+   * Managed by custom hooks / Stripe plugin. ID of the default price in Stripe.
+   */
+  stripePriceID?: string | null
+  stripeID?: string | null
+  skipSync?: boolean | null
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: number
+  user?: (number | null) | User
+  items?:
+    | {
+        product: number | Product
+        quantity: number
+        price: number
+        name: string
+        id?: string | null
+      }[]
+    | null
+  totalAmount: number
+  currency: string
+  stripePaymentIntentID?: string | null
+  status: 'pending' | 'paid' | 'failed' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -392,10 +429,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'artists'
         value: number | Artist
-      } | null)
-    | ({
-        relationTo: 'gallery-images'
-        value: number | GalleryImage
       } | null)
     | ({
         relationTo: 'categories'
@@ -420,6 +453,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'fetch-logs'
         value: number | FetchLog
+      } | null)
+    | ({
+        relationTo: 'products'
+        value: number | Product
+      } | null)
+    | ({
+        relationTo: 'orders'
+        value: number | Order
       } | null)
   globalSlug?: string | null
   user: {
@@ -545,22 +586,10 @@ export interface ArtistsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gallery-images_select".
- */
-export interface GalleryImagesSelect<T extends boolean = true> {
-  image?: T
-  label?: T
-  order?: T
-  updatedAt?: T
-  createdAt?: T
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories_select".
  */
 export interface CategoriesSelect<T extends boolean = true> {
   name?: T
-  slug?: T
   updatedAt?: T
   createdAt?: T
 }
@@ -570,7 +599,6 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface NewsArticlesSelect<T extends boolean = true> {
   title?: T
-  slug?: T
   coverImage?: T
   excerpt?: T
   publishedDate?: T
@@ -640,6 +668,45 @@ export interface FetchLogsSelect<T extends boolean = true> {
   instagramUsername?: T
   status?: T
   message?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  name?: T
+  description?: T
+  price?: T
+  currency?: T
+  productImage?: T
+  stock?: T
+  stripePriceID?: T
+  stripeID?: T
+  skipSync?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders_select".
+ */
+export interface OrdersSelect<T extends boolean = true> {
+  user?: T
+  items?:
+    | T
+    | {
+        product?: T
+        quantity?: T
+        price?: T
+        name?: T
+        id?: T
+      }
+  totalAmount?: T
+  currency?: T
+  stripePaymentIntentID?: T
+  status?: T
   updatedAt?: T
   createdAt?: T
 }
@@ -753,6 +820,16 @@ export interface FooterQuickLink {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stripe-management".
+ */
+export interface StripeManagement {
+  id: number
+  placeholder?: string | null
+  updatedAt?: string | null
+  createdAt?: string | null
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -812,6 +889,16 @@ export interface FooterQuickLinkSelect<T extends boolean = true> {
   reference?: T
   url?: T
   newTab?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stripe-management_select".
+ */
+export interface StripeManagementSelect<T extends boolean = true> {
+  placeholder?: T
+  updatedAt?: T
+  createdAt?: T
+  globalType?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
