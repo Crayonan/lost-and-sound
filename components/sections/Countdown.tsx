@@ -34,7 +34,7 @@ const CountdownBlock = ({
     className="flex flex-col items-center justify-center w-28 h-40 sm:w-32 sm:h-44 md:w-36 md:h-48 lg:w-40 lg:h-52"
     style={{ backgroundColor: bgColor }}
   >
-    <span className="text-6xl md:text-7xl lg:text-8xl font-extrabold text-purple-900">{value}</span>
+    <span className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-purple-900">{value}</span>
     <span className="text-xs md:text-sm uppercase font-semibold tracking-widest text-purple-900">
       {label}
     </span>

@@ -1,13 +1,16 @@
 .
 ├── app
-│   ├── api
-│   │   └── create-order
 │   ├── css
 │   │   ├── custom-slider.css
 │   │   └── globals.css
 │   ├── fonts.ts
 │   ├── layout.tsx
 │   ├── [locale]
+│   │   ├── checkout
+│   │   │   ├── cancel
+│   │   │   │   └── page.tsx
+│   │   │   └── success
+│   │   │       └── page.tsx
 │   │   ├── layout.tsx
 │   │   ├── lineup
 │   │   │   ├── globals.css
@@ -35,7 +38,6 @@
 │   │   ├── HeaderClient.tsx
 │   │   ├── Header.tsx
 │   │   ├── LocaleSwitcher.tsx
-│   │   ├── MobileNav.tsx
 │   │   └── RichText.tsx
 │   ├── gallery
 │   │   ├── FrameItem.tsx
@@ -50,11 +52,65 @@
 │   │   │   ├── CartSidebar.tsx
 │   │   │   ├── CartTrigger.tsx
 │   │   │   └── CheckoutButton.tsx
+│   │   ├── EnhancedProductCard.tsx
+│   │   ├── EnhancedProductDetails.tsx
+│   │   ├── EnhancedProductGrid.tsx
 │   │   ├── ProductDetails.tsx
 │   │   ├── ProductGallery.tsx
-│   │   └── ProductView.tsx
+│   │   ├── ProductView.tsx
+│   │   └── StoreNavigation.tsx
 │   └── ui
-│       └── *.tsx
+│       ├── accordion.tsx
+│       ├── alert-dialog.tsx
+│       ├── alert.tsx
+│       ├── aspect-ratio.tsx
+│       ├── avatar.tsx
+│       ├── badge.tsx
+│       ├── breadcrumb.tsx
+│       ├── button.tsx
+│       ├── calendar.tsx
+│       ├── card.tsx
+│       ├── carousel.tsx
+│       ├── chart.tsx
+│       ├── checkbox.tsx
+│       ├── collapsible.tsx
+│       ├── command.tsx
+│       ├── context-menu.tsx
+│       ├── dialog.tsx
+│       ├── drawer.tsx
+│       ├── dropdown-menu.tsx
+│       ├── form.tsx
+│       ├── hover-card.tsx
+│       ├── input-otp.tsx
+│       ├── input.tsx
+│       ├── label.tsx
+│       ├── loader.tsx
+│       ├── menubar.tsx
+│       ├── navigation-menu.tsx
+│       ├── pagination.tsx
+│       ├── popover.tsx
+│       ├── progress.tsx
+│       ├── radio-group.tsx
+│       ├── resizable.tsx
+│       ├── scroll-area.tsx
+│       ├── select.tsx
+│       ├── separator.tsx
+│       ├── sheet.tsx
+│       ├── sidebar.tsx
+│       ├── skeleton.tsx
+│       ├── slider.tsx
+│       ├── sonner.tsx
+│       ├── switch.tsx
+│       ├── table.tsx
+│       ├── tabs.tsx
+│       ├── textarea.tsx
+│       ├── toaster.tsx
+│       ├── toast.tsx
+│       ├── toggle-group.tsx
+│       ├── toggle.tsx
+│       ├── tooltip.tsx
+│       ├── use-mobile.tsx
+│       └── use-toast.ts
 ├── components.json
 ├── config
 │   └── navLinks.ts
@@ -69,7 +125,9 @@
 │   │   ├── CartContext.tsx
 │   │   ├── checkout.tsx
 │   │   ├── data.ts
-│   │   └── productTransform.ts
+│   │   ├── filterUtils.ts
+│   │   ├── productTransform.ts
+│   │   └── types.ts
 │   └── utils.ts
 ├── locales
 │   ├── de.json
@@ -81,6 +139,7 @@
 ├── postcss.config.mjs
 ├── public
 │   ├── fonts
+│   │   ├── grotesk.otf
 │   │   ├── kobuzan-cy-grotesk-grand-dark.otf
 │   │   ├── lostsoundfont-grotesk.woff2
 │   │   └── lostsoundfont.woff2
@@ -108,4 +167,4 @@
 └── types
     └── payload-types.ts
 
-27 directories, 131 files
+28 directories, 139 files

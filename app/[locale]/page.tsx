@@ -17,9 +17,9 @@ export default async function HomePage({ params }: { params: { locale: string } 
   const { locale } = await params
   const t = allLocales[locale as 'en' | 'de']
 
-  const pageData: PageType | null = await getPageBySlug('home')
-  const artistsData: Artist[] = await getArtists()
-  const galleryMediaItems: PayloadMediaType[] = await getGalleryImages()
+  const pageData: PageType | null = await getPageBySlug('home', locale)
+  const artistsData: Artist[] = await getArtists(locale)
+  const galleryMediaItems: PayloadMediaType[] = await getGalleryImages(locale)
 
   if (!pageData) {
     return (
@@ -114,7 +114,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
         <section id="gallery" className="py-20 bg-black">
           <div className="container mx-auto px-4">
             <h2
-              className={`${ppEditorialNewUltralightItalic.className} text-5xl lg:text-6xl font-light italic text-white tracking-tighter mb-12 text-center`}
+              className={`${ppEditorialNewUltralightItalic.className} text-4xl md:text-5xl lg:text-6xl font-light italic text-white tracking-tighter mb-12 text-center`}
             >
               {t?.home?.festivalHighlights || 'Festival Highlights'}
             </h2>
@@ -125,7 +125,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
         </section>
       )}
 
-      <InfoSection />
+      <InfoSection locale={locale} />
     </>
   )
 }

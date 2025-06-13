@@ -4,8 +4,9 @@ export interface NavLink {
 }
 
 export const NAV_LINKS: NavLink[] = [
+  { label: 'Home', slug: ''},
   { label: 'Line-up', slug: 'lineup' },
-  { label: 'TBA 1', slug: 'tba-1' },
+  { label: 'Shop', slug: 'store' },
   { label: 'TBA 2', slug: 'tba-2' },
   { label: 'TBA 3', slug: 'tba-3' },
 ]

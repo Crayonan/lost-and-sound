@@ -177,7 +177,7 @@ export default function ArtistPage({ title = 'LINE-UP' }: ArtistPageProps) {
 
         <section className="line-up-page__content pt-12">
           <div className="act-collection">
-            <h1 className="text-center text-white text-7xl md:text-8xl lg:text-9xl font-bold tracking-wider mb-12">
+            <h1 className="text-center text-white text-7xl md:text-8xl lg:text-9xl font-bold tracking-wider mb-24 mt-12">
               {title}
             </h1>
 

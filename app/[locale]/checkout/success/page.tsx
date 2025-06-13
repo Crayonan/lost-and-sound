@@ -5,6 +5,7 @@ import { Suspense } from "react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { useCart } from "@/lib/store/CartContext"
 
 interface CheckoutSuccessProps {
     params: { locale: string }
@@ -13,7 +14,7 @@ interface CheckoutSuccessProps {
 
 function CheckoutSuccessContent({ sessionId, locale }: { sessionId: string | undefined, locale: string }) {
     return (
-        <div className="container max-w-md mx-auto py-12 px-4">
+        <div className="container max-w-md mx-auto py-12 px-4 mt-32">
             <Card className="border-green-100 shadow-lg">
                 <CardHeader className="pb-4 text-center">
                     <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
@@ -30,11 +31,6 @@ function CheckoutSuccessContent({ sessionId, locale }: { sessionId: string | und
                     </Alert>
                     <div className="space-y-2 text-muted-foreground">
                         <p>A confirmation email has been sent to your inbox.</p>
-                        {sessionId && (
-                            <p>
-                                Session ID: <span className="font-medium text-foreground font-mono text-sm">{sessionId}</span>
-                            </p>
-                        )}
                     </div>
                 </CardContent>
                 <CardFooter className="flex flex-col space-y-3">
@@ -56,14 +52,18 @@ function CheckoutSuccessContent({ sessionId, locale }: { sessionId: string | und
     )
 }
 
-export default function CheckoutSuccess({ params, searchParams }: CheckoutSuccessProps) {
+export default async function CheckoutSuccess({ params, searchParams }: CheckoutSuccessProps) {
+    const { locale } = await params
+    const { session_id } = await searchParams
+
     return (
         <Suspense fallback={
             <div className="container max-w-md mx-auto py-12 px-4">
                 <div className="animate-pulse">Loading...</div>
             </div>
         }>
-            <CheckoutSuccessContent sessionId={searchParams.session_id} locale={params.locale} />
+            <CheckoutSuccessContent sessionId={session_id} locale={locale} />
         </Suspense>
+        
     )
 }

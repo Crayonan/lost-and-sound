@@ -7,10 +7,14 @@ import {
 import type { NewsArticle, FaqItem } from '@/types/payload-types'
 import { InfoSectionTabs } from './InfoSectionTabs'
 
-export default async function InfoSection() {
-  const newsItemsData: NewsArticle[] = await getNewsArticles(4)
-  const faqItemsData: FaqItem[] = await getFaqItems(5)
-  const instagramPostsData: PopulatedInstagramPost[] = await getInstagramPostsFromPayload(5)
+interface InfoSectionProps {
+  locale?: string
+}
+
+export default async function InfoSection({ locale }: InfoSectionProps) {
+  const newsItemsData: NewsArticle[] = await getNewsArticles(4, locale)
+  const faqItemsData: FaqItem[] = await getFaqItems(5, locale)
+  const instagramPostsData: PopulatedInstagramPost[] = await getInstagramPostsFromPayload(5, locale)
 
   return (
     <InfoSectionTabs

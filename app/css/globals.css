@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: 'PPEditorialNew-UltralightItalic';
-  src: url('public/fonts/lostsoundfont.woff2') format('truetype');
+  src: url('public/fonts/grotesk.otf') format('truetype');
   font-weight: 200;
   font-style: italic;
   font-display: swap;

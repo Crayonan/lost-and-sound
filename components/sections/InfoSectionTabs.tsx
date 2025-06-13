@@ -17,6 +17,8 @@ import RichText from '../common/RichText'
 import type { NewsArticle, FaqItem, Category, Media as PayloadMedia } from '@/types/payload-types'
 import type { PopulatedInstagramPost } from '@/lib/payloadAPI'
 
+const PAYLOAD_PUBLIC_URL = process.env.NEXT_PUBLIC_PAYLOAD_URL || 'http://localhost:3000'
+
 interface InfoSectionTabsProps {
   initialInstagramPosts: PopulatedInstagramPost[]
   initialNewsItems: NewsArticle[]
@@ -64,6 +66,12 @@ export function InfoSectionTabs({
     setSelectedNewsItem(newsItem)
   }
 
+  // Helper function to ensure proper URL formatting
+  const formatImageUrl = (url: string | null | undefined): string => {
+    if (!url) return '/placeholder.svg'
+    return url.startsWith('/') ? `${PAYLOAD_PUBLIC_URL}${url}` : url
+  }
+
   const renderContent = () => {
     switch (activeSection) {
       case 'instagram':
@@ -77,14 +85,14 @@ export function InfoSectionTabs({
 
         const imageToDisplay =
           currentInstaPost.localImage &&
-          typeof currentInstaPost.localImage === 'object' &&
-          'url' in currentInstaPost.localImage
+            typeof currentInstaPost.localImage === 'object' &&
+            'url' in currentInstaPost.localImage
             ? (currentInstaPost.localImage as PayloadMedia)
             : null
         const videoToDisplay =
           currentInstaPost.localVideo &&
-          typeof currentInstaPost.localVideo === 'object' &&
-          'url' in currentInstaPost.localVideo
+            typeof currentInstaPost.localVideo === 'object' &&
+            'url' in currentInstaPost.localVideo
             ? (currentInstaPost.localVideo as PayloadMedia)
             : null
 
@@ -99,7 +107,7 @@ export function InfoSectionTabs({
                 <>
                   {videoToDisplay && videoToDisplay.url ? (
                     <video
-                      src={videoToDisplay.url}
+                      src={formatImageUrl(videoToDisplay.url)}
                       controls
                       autoPlay
                       loop
@@ -111,7 +119,7 @@ export function InfoSectionTabs({
                     </video>
                   ) : imageToDisplay && imageToDisplay.url ? (
                     <Image
-                      src={imageToDisplay.url}
+                      src={formatImageUrl(imageToDisplay.url)}
                       alt={imageToDisplay.alt || 'Instagram post image'}
                       fill
                       className="absolute inset-0 object-cover"
@@ -144,8 +152,6 @@ export function InfoSectionTabs({
                         ? new Date(currentInstaPost.postDate).toLocaleDateString()
                         : 'N/A'}
                     </span>
-                    <span className="mx-2">•</span>
-                    <span>{currentInstaPost.likesCount || 0} likes</span>
                   </div>
                 </div>
               </div>
@@ -154,7 +160,6 @@ export function InfoSectionTabs({
             <div className="relative z-10 p-4 sm:p-8 md:p-12 bg-black instagram-content-mobile">
               <h2
                 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight mb-4 sm:mb-6 text-white"
-                style={{ fontFamily: 'sans-serif' }}
               >
                 {t.info.instagram}
               </h2>
@@ -165,25 +170,24 @@ export function InfoSectionTabs({
                 {initialInstagramPosts.slice(0, 3).map(post => {
                   const postListItemImage =
                     post.localImage &&
-                    typeof post.localImage === 'object' &&
-                    'url' in post.localImage
+                      typeof post.localImage === 'object' &&
+                      'url' in post.localImage
                       ? (post.localImage as PayloadMedia)
                       : null
                   return (
                     <div
                       key={post.id}
-                      className={`p-2 sm:p-3 border rounded-lg cursor-pointer transition-all instagram-post-mobile ${
-                        selectedInstagramPost?.id === post.id
-                          ? 'border-purple-500 bg-purple-900/20'
-                          : 'border-purple-900/30 hover:border-purple-500/50'
-                      }`}
+                      className={`p-2 sm:p-3 border rounded-lg cursor-pointer transition-all instagram-post-mobile ${selectedInstagramPost?.id === post.id
+                        ? 'border-purple-500 bg-purple-900/20'
+                        : 'border-purple-900/30 hover:border-purple-500/50'
+                        }`}
                       onClick={() => handleInstagramPostSelect(post)}
                     >
                       <div className="flex items-start">
                         <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-md overflow-hidden mr-2 sm:mr-3 flex-shrink-0 post-image relative bg-gray-700">
                           {postListItemImage?.url ? (
                             <Image
-                              src={postListItemImage.url}
+                              src={formatImageUrl(postListItemImage.url)}
                               alt={postListItemImage.alt}
                               fill
                               className="object-cover"
@@ -236,7 +240,7 @@ export function InfoSectionTabs({
             <div className="relative h-[40vh] sm:h-[50vh] lg:h-[80vh]">
               {coverImage?.url && (
                 <Image
-                  src={coverImage.url}
+                  src={formatImageUrl(coverImage.url)}
                   alt={coverImage.alt || currentNewsItem.title || 'News article image'}
                   fill
                   className="absolute inset-0 object-cover"
@@ -263,7 +267,6 @@ export function InfoSectionTabs({
             <div className="p-4 sm:p-8 md:p-12 bg-black">
               <h2
                 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight mb-4 sm:mb-6 text-white"
-                style={{ fontFamily: 'sans-serif' }}
               >
                 {t.info.news}
               </h2>
@@ -271,11 +274,10 @@ export function InfoSectionTabs({
                 {initialNewsItems.slice(0, 4).map(newsItem => (
                   <div
                     key={newsItem.id}
-                    className={`p-3 sm:p-4 border rounded-lg cursor-pointer transition-all news-item-mobile ${
-                      selectedNewsItem?.id === newsItem.id
-                        ? 'border-purple-500 bg-purple-900/20'
-                        : 'border-purple-900/30 hover:border-purple-500/50'
-                    }`}
+                    className={`p-3 sm:p-4 border rounded-lg cursor-pointer transition-all news-item-mobile ${selectedNewsItem?.id === newsItem.id
+                      ? 'border-purple-500 bg-purple-900/20'
+                      : 'border-purple-900/30 hover:border-purple-500/50'
+                      }`}
                     onClick={() => handleNewsItemSelect(newsItem)}
                   >
                     <div className="flex justify-between items-start">
@@ -288,11 +290,10 @@ export function InfoSectionTabs({
                         </p>
                       </div>
                       <ChevronRight
-                        className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${
-                          selectedNewsItem?.id === newsItem.id
-                            ? 'text-purple-400 rotate-90'
-                            : 'text-white/50'
-                        }`}
+                        className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${selectedNewsItem?.id === newsItem.id
+                          ? 'text-purple-400 rotate-90'
+                          : 'text-white/50'
+                          }`}
                       />
                     </div>
                   </div>
@@ -332,7 +333,6 @@ export function InfoSectionTabs({
             <div className="p-4 sm:p-8 md:p-12 bg-black faq-content-mobile">
               <h2
                 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight mb-4 sm:mb-6 text-white"
-                style={{ fontFamily: 'sans-serif' }}
               >
                 {t.info.faq}
               </h2>
@@ -398,31 +398,28 @@ export function InfoSectionTabs({
           <div className="mt-6 md:mt-12 flex lg:flex-col overflow-x-auto md:overflow-x-visible pb-2 md:pb-0">
             <button
               onClick={() => handleSectionChange('instagram')}
-              className={`flex-shrink-0 block p-4 md:p-6 text-right text-base md:text-xl font-bold transition-colors whitespace-nowrap ${
-                activeSection === 'instagram'
-                  ? 'text-purple-500 hover:text-purple-400 border-b-4 md:border-b-0 md:border-l-4 border-purple-500'
-                  : 'text-white hover:text-purple-400'
-              }`}
+              className={`flex-shrink-0 block p-4 md:p-6 text-right text-base md:text-xl font-bold transition-colors whitespace-nowrap ${activeSection === 'instagram'
+                ? 'text-purple-500 hover:text-purple-400 border-b-4 md:border-b-0 md:border-l-4 border-purple-500'
+                : 'text-white hover:text-purple-400'
+                }`}
             >
               INSTAGRAM
             </button>
             <button
               onClick={() => handleSectionChange('news')}
-              className={`flex-shrink-0 block p-4 md:p-6 text-right text-base md:text-xl font-bold transition-colors whitespace-nowrap ${
-                activeSection === 'news'
-                  ? 'text-purple-500 hover:text-purple-400 border-b-4 md:border-b-0 md:border-l-4 border-purple-500'
-                  : 'text-white hover:text-purple-400'
-              }`}
+              className={`flex-shrink-0 block p-4 md:p-6 text-right text-base md:text-xl font-bold transition-colors whitespace-nowrap ${activeSection === 'news'
+                ? 'text-purple-500 hover:text-purple-400 border-b-4 md:border-b-0 md:border-l-4 border-purple-500'
+                : 'text-white hover:text-purple-400'
+                }`}
             >
               {t.info.news}
             </button>
             <button
               onClick={() => handleSectionChange('faq')}
-              className={`flex-shrink-0 block p-4 md:p-6 text-right text-base md:text-xl font-bold transition-colors whitespace-nowrap ${
-                activeSection === 'faq'
-                  ? 'text-purple-500 hover:text-purple-400 border-b-4 md:border-b-0 md:border-l-4 border-purple-500'
-                  : 'text-white hover:text-purple-400'
-              }`}
+              className={`flex-shrink-0 block p-4 md:p-6 text-right text-base md:text-xl font-bold transition-colors whitespace-nowrap ${activeSection === 'faq'
+                ? 'text-purple-500 hover:text-purple-400 border-b-4 md:border-b-0 md:border-l-4 border-purple-500'
+                : 'text-white hover:text-purple-400'
+                }`}
             >
               {t.info.faq}
             </button>

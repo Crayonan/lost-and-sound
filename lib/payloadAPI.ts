@@ -91,22 +91,30 @@ export async function getFooterData (locale?: string): Promise<FooterType | null
 }
 
 // --- Collection Data Fetchers ---
-export async function getArtists (): Promise<Artist[]> {
+export async function getArtists (locale?: string): Promise<Artist[]> {
+  const params = new URLSearchParams({
+    limit: '30',
+    sort: 'name',
+    depth: '1'
+  })
+  if (locale) params.append('locale', locale)
+  
   const data = await fetchAPI<CollectionResponse<Artist>>(
-    `/artists?limit=30&sort=name&depth=1`,
+    `/artists?${params.toString()}`,
     {},
     ['artists']
   )
   return data.docs || []
 }
 
-export async function getGalleryImages (): Promise<PayloadMedia[]> {
+export async function getGalleryImages (locale?: string): Promise<PayloadMedia[]> {
   const params = new URLSearchParams({
     limit: '9',
     'where[category][equals]': 'gallery',
     sort: '-createdAt', // Or 'createdAt' for oldest first, or remove for default sort
     depth: '1',
   })
+  if (locale) params.append('locale', locale)
 
   const data = await fetchAPI<CollectionResponse<PayloadMedia>>(
     `/media?${params.toString()}`,
@@ -150,13 +158,16 @@ export async function getPageBySlug (slug: string, locale?: string): Promise<Pag
 }
 
 export async function getInstagramPostsFromPayload (
-  limit: number = 5
+  limit: number = 5,
+  locale?: string
 ): Promise<PopulatedInstagramPost[]> {
   const queryParams = new URLSearchParams({
     sort: '-postDate',
     limit: limit.toString(),
     depth: '1',
   })
+  if (locale) queryParams.append('locale', locale)
+  
   try {
     const data = await fetchAPI<CollectionResponse<PopulatedInstagramPost>>(
       `/instagram-posts?${queryParams.toString()}`,
@@ -171,13 +182,14 @@ export async function getInstagramPostsFromPayload (
 }
 
 // --- Product Data Fetchers ---
-export async function getProducts (): Promise<Product[]> {
+export async function getProducts (locale?: string): Promise<Product[]> {
   const params = new URLSearchParams({
     limit: '50',
     sort: '-createdAt',
     depth: '2',
     draft: 'false',
   })
+  if (locale) params.append('locale', locale)
 
   try {
     const data = await fetchAPI<CollectionResponse<Product>>(`/products?${params.toString()}`, {}, [
@@ -190,11 +202,12 @@ export async function getProducts (): Promise<Product[]> {
   }
 }
 
-export async function getProductById (id: string | number): Promise<Product | null> {
+export async function getProductById (id: string | number, locale?: string): Promise<Product | null> {
   const params = new URLSearchParams({
     depth: '2',
     draft: 'false',
   })
+  if (locale) params.append('locale', locale)
 
   try {
     const data = await fetchAPI<Product>(`/products/${id}?${params.toString()}`, {}, [
@@ -207,13 +220,14 @@ export async function getProductById (id: string | number): Promise<Product | nu
   }
 }
 
-export async function getProductBySlug (slug: string): Promise<Product | null> {
+export async function getProductBySlug (slug: string, locale?: string): Promise<Product | null> {
   const params = new URLSearchParams({
     'where[slug][equals]': slug,
     limit: '1',
     depth: '2',
     draft: 'false',
   })
+  if (locale) params.append('locale', locale)
 
   try {
     const data = await fetchAPI<CollectionResponse<Product>>(`/products?${params.toString()}`, {}, [

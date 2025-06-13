@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { AlertCircle, Home, RefreshCw } from "lucide-react"
 import Link from "next/link"
 
@@ -10,10 +13,42 @@ interface CheckoutCancelProps {
 }
 
 export default function CheckoutCancel({ params }: CheckoutCancelProps) {
-    const { locale } = params
+    const { locale } = params;
+    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+    const [message, setMessage] = useState<string>("");
+
+    useEffect(() => {
+        const orderId = localStorage.getItem("checkoutOrderId");
+        if (!orderId) {
+            setStatus("error");
+            setMessage("No order found to cancel.");
+            return;
+        }
+        setStatus("loading");
+        fetch(`http://localhost:3000/api/cancel-order`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ orderId }),
+        })
+            .then(async (res) => {
+                const data = await res.json();
+                if (res.ok) {
+                    setStatus("success");
+                    setMessage(data.message || "Order cancelled.");
+                    localStorage.removeItem("checkoutOrderId");
+                } else {
+                    setStatus("error");
+                    setMessage(data.message || "Failed to cancel order.");
+                }
+            })
+            .catch(() => {
+                setStatus("error");
+                setMessage("Failed to cancel order.");
+            });
+    }, []);
 
     return (
-        <div className="container max-w-md mx-auto py-12 px-4">
+        <div className="container max-w-md mx-auto py-12 px-4 mt-32">
             <Card className="border-amber-100 shadow-lg">
                 <CardHeader className="pb-4 text-center">
                     <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-amber-100">
@@ -24,7 +59,10 @@ export default function CheckoutCancel({ params }: CheckoutCancelProps) {
                 <CardContent className="text-center">
                     <Alert className="bg-amber-50 border-amber-200 mb-6">
                         <AlertTitle>Order Not Completed</AlertTitle>
-                        <AlertDescription>Your payment was cancelled and no charges were made.</AlertDescription>
+                        <AlertDescription>
+                            {status === "loading" && "Cancelling your order..."}
+                            {status !== "loading" && message ? message : "Your payment was cancelled and no charges were made."}
+                        </AlertDescription>
                     </Alert>
                     <div className="space-y-2 text-muted-foreground">
                         <p>Your cart items have been saved.</p>
